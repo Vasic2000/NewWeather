@@ -10,10 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import ru.vasic2000.newweather.Activities.ChangeSity;
 import ru.vasic2000.newweather.Activities.Weather;
 
 public class MainActivity extends AppCompatActivity {
     private static final String WEATHER_FRAGMENT_TAG = "077TAG";
+    private static final String WEATHER_CHANGE_TAG = "077TAH";
 
     private CityPreference cityPreference;
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_change_city) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container_for_fragment,
+                    new ChangeSity(), WEATHER_CHANGE_TAG).commit();
             Toast.makeText(this, "I çan't!!!", Toast.LENGTH_LONG).show();
             return true;
         }

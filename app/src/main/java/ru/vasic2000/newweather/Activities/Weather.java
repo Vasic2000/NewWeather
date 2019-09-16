@@ -1,6 +1,6 @@
 package ru.vasic2000.newweather.Activities;
 
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,20 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Locale;
 
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.MainActivity;
-import ru.vasic2000.newweather.Network.NetRequest;
 import ru.vasic2000.newweather.R;
+
+import static ru.vasic2000.newweather.Network.NetworkUtils.generateURL;
+import static ru.vasic2000.newweather.Network.NetworkUtils.getJSONData;
+import static ru.vasic2000.newweather.Network.NetworkUtils.getResponseFromURL;
 
 
 public class Weather extends Fragment {
@@ -33,13 +35,8 @@ public class Weather extends Fragment {
     private TextView detailsTextView;
     private TextView currentTemperatureTextView;
     private TextView weatherIcon;
+    private ProgressBar loadIndicator;
 
-
-    private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/";
-    private static final String OPEN_WEATHER_METHOD = "data/2.5/weather";
-    private static final String PARAM = "q";
-    private static final String KEY = "APPID";
-    private static final String MY_KEY = "07795d846f9c55c418379de9d14962e7";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +52,7 @@ public class Weather extends Fragment {
         detailsTextView = rootView.findViewById(R.id.details_field);
         currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
         weatherIcon = rootView.findViewById(R.id.weather_icon_field);
+        loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
 
         MainActivity weatherActivity = (MainActivity) getActivity();
         updateWeatherData(new CityPreference(weatherActivity).getCity());
@@ -62,41 +60,7 @@ public class Weather extends Fragment {
 
     private void updateWeatherData(String city) {
         URL generatedURL = generateURL(city);
-        String responseFromURL = (new NetRequest().execute(generatedURL)).toString();
-        JSONObject response = getJSONData(responseFromURL);
-        renderWeather(response);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weather, container, false);
-    }
-
-
-    static URL generateURL(String city) {
-        URL url = null;
-        Uri builtUri = Uri.parse(OPEN_WEATHER_MAP_API + OPEN_WEATHER_METHOD)
-                .buildUpon()
-                .appendQueryParameter(PARAM, city)
-                .appendQueryParameter(KEY, MY_KEY)
-                .build();
-        try {
-            String appi = builtUri.toString();
-            url = new URL(appi);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
-    static JSONObject getJSONData(String response) {
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            return jsonObject;
-        } catch (JSONException j) {
-            return null;
-        }
+        new actualWeather().execute(generatedURL);
     }
 
     private void renderWeather(JSONObject json) {
@@ -164,5 +128,30 @@ public class Weather extends Fragment {
             }
         }
         weatherIcon.setText(icon);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_weather, container, false);
+    }
+
+    class actualWeather extends AsyncTask<URL, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            loadIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            return getResponseFromURL(urls[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            JSONObject answer = getJSONData(response);
+            renderWeather(answer);
+            loadIndicator.setVisibility(View.INVISIBLE);
+        }
     }
 }
