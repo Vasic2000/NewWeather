@@ -2,20 +2,31 @@ package ru.vasic2000.newweather;
 
 import android.os.Bundle;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ru.vasic2000.newweather.Activities.ChangeSity;
+import ru.vasic2000.newweather.Activities.Forecast;
+import ru.vasic2000.newweather.Activities.Setting;
 import ru.vasic2000.newweather.Activities.Weather;
 
 public class MainActivity extends AppCompatActivity {
     private static final String WEATHER_FRAGMENT_TAG = "077TAG";
     private static final String WEATHER_CHANGE_TAG = "077TAH";
+
+    Weather fragment_weather;
+    Forecast fragment_forecast;
+    ChangeSity fragment_changeSity;
+    Setting fragment_setting;
 
     private CityPreference cityPreference;
 
@@ -23,15 +34,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initFragments();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         cityPreference = new CityPreference(this);
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container_for_fragment,
-                    new Weather(), WEATHER_FRAGMENT_TAG).commit();
+            addFragment(fragment_weather);
         }
     }
+
+    private void initFragments() {
+        fragment_weather = new Weather();
+        fragment_forecast = new Forecast();
+        fragment_changeSity = new ChangeSity();
+        fragment_setting = new Setting();
+    }
+
+    private void addFragment(Fragment fragment){
+        // Открыть транзакцию
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
+        if (!fragmentsList.contains(fragment))
+        // Добавить фрагмент
+            fragmentTransaction.add(R.id.container_for_fragment, fragment);
+        fragmentTransaction.addToBackStack("");
+        // Закрыть транзакцию
+        fragmentTransaction.commit();
+    }
+
+    public void removeFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.remove(fragment);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_change_city) {
             getSupportFragmentManager().beginTransaction().add(R.id.container_for_fragment,
                     new ChangeSity(), WEATHER_CHANGE_TAG).commit();
-            Toast.makeText(this, "I çan't!!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "I can't!!!", Toast.LENGTH_LONG).show();
             return true;
         }
 
