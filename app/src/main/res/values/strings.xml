@@ -11,4 +11,6 @@
     <string name="weather_snowy">&#xf01b;</string>
     <string name="weather_thunder">&#xf01e;</string>
     <string name="weather_drizzly">&#xf01c;</string>
+    <string name="new_city">New City</string>
+    <string name="go_back">Go Back</string>
 </resources>

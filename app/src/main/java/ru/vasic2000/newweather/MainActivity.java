@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import ru.vasic2000.newweather.Activities.ChangeSity;
+import ru.vasic2000.newweather.Activities.ChangeCity;
 import ru.vasic2000.newweather.Activities.Forecast;
 import ru.vasic2000.newweather.Activities.Setting;
 import ru.vasic2000.newweather.Activities.Weather;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public Weather fragment_weather;
     public Forecast fragment_forecast;
-    public ChangeSity fragment_changeSity;
+    public ChangeCity fragment_changeCity;
     public Setting fragment_setting;
 
     private CityPreference cityPreference;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private void initFragments() {
         fragment_weather = new Weather();
         fragment_forecast = new Forecast();
-        fragment_changeSity = new ChangeSity();
+        fragment_changeCity = new ChangeCity();
         fragment_setting = new Setting();
     }
 
@@ -97,11 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_change_city) {
-            addFragment(fragment_changeSity);
+            addFragment(fragment_changeCity);
             Toast.makeText(this, "I can't!!!", Toast.LENGTH_LONG).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeCity(String city) {
+        fragment_weather.changeCity(city);
+        cityPreference.setCity(city);
     }
 }

@@ -136,6 +136,10 @@ public class Weather extends Fragment {
         return inflater.inflate(R.layout.fragment_weather, container, false);
     }
 
+    public void changeCity(String city) {
+        updateWeatherData(city);
+    }
+
     class actualWeather extends AsyncTask<URL, Void, String> {
         @Override
         protected void onPreExecute() {
