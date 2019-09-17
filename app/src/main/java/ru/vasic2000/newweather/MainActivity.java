@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String WEATHER_FRAGMENT_TAG = "077TAG";
     private static final String WEATHER_CHANGE_TAG = "077TAH";
 
-    Weather fragment_weather;
-    Forecast fragment_forecast;
-    ChangeSity fragment_changeSity;
-    Setting fragment_setting;
+    public Weather fragment_weather;
+    public Forecast fragment_forecast;
+    public ChangeSity fragment_changeSity;
+    public Setting fragment_setting;
 
     private CityPreference cityPreference;
 
@@ -97,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_change_city) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container_for_fragment,
-                    new ChangeSity(), WEATHER_CHANGE_TAG).commit();
+            addFragment(fragment_changeSity);
             Toast.makeText(this, "I can't!!!", Toast.LENGTH_LONG).show();
             return true;
         }
