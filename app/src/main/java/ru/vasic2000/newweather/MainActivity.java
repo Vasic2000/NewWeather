@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    //Чтобы по кнопке назад не оставалось пустого экрана без фрагмента
+    public void onBackPressed() {
+        finish();
+    }
+
     private void initFragments() {
         fragment_weather = new Weather();
         fragment_forecast = new Forecast();
