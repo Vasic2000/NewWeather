@@ -20,8 +20,6 @@ import ru.vasic2000.newweather.Activities.Setting;
 import ru.vasic2000.newweather.Activities.Weather;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String WEATHER_FRAGMENT_TAG = "077TAG";
-    private static final String WEATHER_CHANGE_TAG = "077TAH";
 
     public Weather fragment_weather;
     public Forecast fragment_forecast;
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         fragment_setting = new Setting();
     }
 
-    private void addFragment(Fragment fragment){
+    public void addFragment(Fragment fragment){
         // Открыть транзакцию
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();

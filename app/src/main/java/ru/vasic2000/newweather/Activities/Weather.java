@@ -36,6 +36,7 @@ public class Weather extends Fragment {
     private TextView currentTemperatureTextView;
     private TextView weatherIcon;
     private ProgressBar loadIndicator;
+    private TextView forecast;
 
 
     @Override
@@ -53,9 +54,17 @@ public class Weather extends Fragment {
         currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
         weatherIcon = rootView.findViewById(R.id.weather_icon_field);
         loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
+        forecast = rootView.findViewById(R.id.tv_forecast);
 
-        MainActivity weatherActivity = (MainActivity) getActivity();
+        final MainActivity weatherActivity = (MainActivity) getActivity();
         updateWeatherData(new CityPreference(weatherActivity).getCity());
+
+        forecast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weatherActivity.addFragment(weatherActivity.fragment_forecast);
+            }
+        });
     }
 
     private void updateWeatherData(String city) {

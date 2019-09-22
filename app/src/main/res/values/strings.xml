@@ -14,4 +14,7 @@
     <string name="new_city">New City</string>
     <string name="go_back">Go Back</string>
     <string name="forecast">Forecast</string>
+    <string name="input_new_city">Input new city</string>
+    <string name="Hint_Input">Input New city</string>
+    <string name="go_back2">Go back</string>
 </resources>

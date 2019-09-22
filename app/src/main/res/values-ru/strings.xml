@@ -15,4 +15,7 @@
     <string name="new_city">Новый город</string>
     <string name="go_back">Вернуться</string>
     <string name="forecast">Прогноз</string>
+    <string name="input_new_city">Новый город</string>
+    <string name="Hint_Input">Новый город</string>
+    <string name="go_back2">Вернуться</string>
 </resources>

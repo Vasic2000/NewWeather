@@ -1,8 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Forecast">
+    android:background="#FFFFFF"
+    android:padding="@dimen/activity_vertical_margin"
+    tools:context=".Activities.Weather">
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <!--    General-->
+
+    <TextView
+        android:id="@+id/city_forecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/MargineTopFirst"
+        android:gravity="center"
+        android:text="Town"
+        android:textSize="@dimen/city_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    Day 1-->
+
+    <TextView
+        android:id="@+id/weather_icon_1day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MargineTopFirst"
+        android:layout_below="@id/city_forecast"
+        android:fontFamily="@font/weathericons"
+        android:text="10"
+        android:textSize="@dimen/icon_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_forecast" />
+
+    <TextView
+        android:id="@+id/temperature_1day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_1day"
+        app:layout_constraintTop_toTopOf="@+id/weather_icon_1day" />
+
+    <TextView
+        android:id="@+id/temperature_1night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_1day"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_1day" />
+
+    <!--    Day 2-->
+
+    <TextView
+        android:id="@+id/weather_icon_2day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_icon_1day"
+        android:layout_marginTop="@dimen/MargineTopFirst"
+        android:fontFamily="@font/weathericons"
+        android:text="10"
+        android:textSize="@dimen/icon_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon_1day" />
+
+    <TextView
+        android:id="@+id/temperature_2day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_2day"
+        app:layout_constraintTop_toTopOf="@+id/weather_icon_2day" />
+
+    <TextView
+        android:id="@+id/temperature_2night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_2day"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_2day" />
+
+    <TextView
+        android:id="@+id/weather_icon_3day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_icon_2day"
+        android:layout_marginTop="@dimen/MargineTopFirst"
+        android:fontFamily="@font/weathericons"
+        android:text="10"
+        android:textSize="@dimen/icon_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon_2day" />
+
+    <TextView
+        android:id="@+id/temperature_3day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_2day"
+        app:layout_constraintTop_toTopOf="@+id/weather_icon_3day" />
+
+    <TextView
+        android:id="@+id/temperature_3night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon_3day"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_3day"  />
+
+    <!--    General-->
+
+    <TextView
+        android:id="@+id/tv_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_icon_3day"
+        android:layout_centerHorizontal="true"
+        android:text="@string/go_back2"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/temperature_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon_3day" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
