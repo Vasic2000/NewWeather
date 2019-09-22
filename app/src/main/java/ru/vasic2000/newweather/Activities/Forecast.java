@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 
+import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.MainActivity;
 import ru.vasic2000.newweather.R;
 
@@ -46,7 +47,8 @@ public class Forecast extends Fragment {
             }
         });
 
-        updateForecastData(city);
+        final MainActivity weatherActivity = (MainActivity) getActivity();
+        updateForecastData(new CityPreference(weatherActivity).getCity());
 
         return forecast;
     }
