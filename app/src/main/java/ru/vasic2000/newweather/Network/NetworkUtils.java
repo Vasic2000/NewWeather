@@ -14,9 +14,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NetworkUtils {
+    //https://api.openweathermap.org/data/2.5/weather?q=Mytishchi&APPID=07795d846f9c55c418379de9d14962e7
+    //https://api.openweathermap.org/data/2.5/forecast?q=Moscow&APPID=07795d846f9c55c418379de9d14962e7
+    //https://api.openweathermap.org/data/2.5/weather?forecast=Mytishchi&APPID=07795d846f9c55c418379de9d14962e7
 
     private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/";
     private static final String OPEN_WEATHER_METHOD = "data/2.5/weather";
+    private static final String OPEN_WEATHER_FORECAST = "data/2.5/forecast";
     private static final String PARAM = "q";
     private static final String KEY = "APPID";
     private static final String MY_KEY = "07795d846f9c55c418379de9d14962e7";
@@ -34,15 +38,35 @@ public class NetworkUtils {
                 rawData.append(tempVariable + NEW_LINE);
             }
             br.close();
+            is.close();
+            in.close();
+            connection.disconnect();
         } catch (IOException e) {
-            System.out.println("ИО!!!");;
+            System.out.println("ИО!!!");
         }
+
         return rawData.toString();
     }
 
     public static URL generateURL(String city) {
         URL url = null;
         Uri builtUri = Uri.parse(OPEN_WEATHER_MAP_API + OPEN_WEATHER_METHOD)
+                .buildUpon()
+                .appendQueryParameter(PARAM, city)
+                .appendQueryParameter(KEY, MY_KEY)
+                .build();
+        try {
+            String appi = builtUri.toString();
+            url = new URL(appi);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL generateURLforecast(String city) {
+        URL url = null;
+        Uri builtUri = Uri.parse(OPEN_WEATHER_MAP_API + OPEN_WEATHER_FORECAST)
                 .buildUpon()
                 .appendQueryParameter(PARAM, city)
                 .appendQueryParameter(KEY, MY_KEY)
