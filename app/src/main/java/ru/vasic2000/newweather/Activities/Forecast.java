@@ -35,12 +35,15 @@ public class Forecast extends Fragment {
     private TextView tv_city;
     private TextView tv_Icon1;
     private TextView tv_temperatureDay1;
+    private TextView tv_Icon4;
     private TextView tv_temperatureNight1;
     private TextView tv_Icon2;
     private TextView tv_temperatureDay2;
+    private TextView tv_Icon5;
     private TextView tv_temperatureNight2;
     private TextView tv_Icon3;
     private TextView tv_temperatureDay3;
+    private TextView tv_Icon6;
     private TextView tv_temperatureNight3;
 
     @Override
@@ -59,6 +62,10 @@ public class Forecast extends Fragment {
         tv_Icon1 = forecast.findViewById(R.id.weather_icon_1day);
         tv_Icon2 = forecast.findViewById(R.id.weather_icon_2day);
         tv_Icon3 = forecast.findViewById(R.id.weather_icon_3day);
+
+        tv_Icon4 = forecast.findViewById(R.id.weather_icon_1night);
+        tv_Icon5 = forecast.findViewById(R.id.weather_icon_2night);
+        tv_Icon6 = forecast.findViewById(R.id.weather_icon_3night);
 
         tv_temperatureDay1 = forecast.findViewById(R.id.temperature_1day);
         tv_temperatureDay2 = forecast.findViewById(R.id.temperature_2day);
@@ -84,60 +91,47 @@ public class Forecast extends Fragment {
 
     private void renderForecast(JSONObject json) {
         ArrayList<JSONObject> lists = new ArrayList<>();
-        ArrayList<Integer> iconsId = new ArrayList<>();
-        ArrayList<Double> temperature = new ArrayList<>();
+        ArrayList<Integer> iconsIdD = new ArrayList<>();
+        ArrayList<Integer> iconsIdN = new ArrayList<>();
+        ArrayList<Double> temperatureD = new ArrayList<>();
+        ArrayList<Double> temperatureN = new ArrayList<>();
 
         try {
             tv_city.setText(json.getJSONObject("city").getString("name").toUpperCase(Locale.US) + ","
                     + json.getJSONObject("city").getString("country"));
 
             JSONArray list = json.getJSONArray("list");
+            String ssstr;
 
-            for(int i = 0; i < list.length(); i++)
+//            Ищу данные для 3 часов дня и 3 часов ночи
+            for(int i = 0; i < list.length(); i++) {
                 lists.add(list.getJSONObject(i));
+                ssstr = list.getJSONObject(i).getString("dt_txt");
+                ssstr = ssstr.substring(ssstr.length() - 8, ssstr.length() - 6);
+                if(ssstr.equals("15")) {
+                    temperatureD.add(list.getJSONObject(i).getJSONObject("main").getDouble("temp_max") - 273.15);
+                    iconsIdD.add(list.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getInt("id"));
+                }
+                if(ssstr.equals("03")) {
+                    temperatureN.add(list.getJSONObject(i).getJSONObject("main").getDouble("temp_min") - 273.15);
+                    iconsIdN.add(list.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getInt("id"));
+                }
+            }
 
-//            Для отладки, а так можно в 6 строк
+            tv_temperatureDay1.setText(String.format("%.2f", temperatureD.get(0)) + "°C");
+            tv_temperatureDay2.setText(String.format("%.2f", temperatureD.get(1)) + "°C");
+            tv_temperatureDay3.setText(String.format("%.2f", temperatureD.get(2)) + "°C");
 
-            JSONObject day1 = glist.getJSONObject(1);
-            JSONObject night1 = glist.getJSONObject(5);
-            JSONObject day2 = glist.getJSONObject(9);
-            JSONObject night2 = glist.getJSONObject(13);
-            JSONObject day3 = glist.getJSONObject(17);
-            JSONObject night3 = glist.getJSONObject(21);
+            tv_temperatureNight1.setText(String.format("%.2f", temperatureN.get(0)) + "°C");
+            tv_temperatureNight2.setText(String.format("%.2f", temperatureN.get(1)) + "°C");
+            tv_temperatureNight3.setText(String.format("%.2f", temperatureN.get(2)) + "°C");
 
-            Double da1 = day1.getJSONObject("main").getDouble("temp_max") - 273.15;
-            Double ni1 = night1.getJSONObject("main").getDouble("temp_min") - 273.15;
-            Double da2 = day2.getJSONObject("main").getDouble("temp_max") - 273.15;
-            Double ni2 = night2.getJSONObject("main").getDouble("temp_min") - 273.15;
-            Double da3 = day3.getJSONObject("main").getDouble("temp_max") - 273.15;
-            Double ni3 = night3.getJSONObject("main").getDouble("temp_min") - 273.15;
-
-//            Для отладки, а так можно в 6 строк
-
-            tv_temperatureDay1.setText(String.format("%.2f", da1) + " °C");
-            tv_temperatureDay2.setText(String.format("%.2f", da2) + " °C");
-            tv_temperatureDay3.setText(String.format("%.2f", da3) + " °C");
-
-            tv_temperatureNight1.setText(String.format("%.2f", ni1) + " °C");
-            tv_temperatureNight2.setText(String.format("%.2f", ni2) + " °C");
-            tv_temperatureNight3.setText(String.format("%.2f", ni3) + " °C");
-
-
-
-
-//            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-//            JSONObject main = json.getJSONObject("main");
-//            String st1 = details.getString("description").toUpperCase(Locale.US);
-//            String st2 = main.getString("humidity");
-//            String st3 = main.getString("pressure");
-//
-//            detailsTextView.setText(st1 + "\n" +
-//                    "Humidity: " + st2 + "%\n" + st3 + "hpa");
-//
-//            int actualId = details.getInt("id");
-//            long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
-//            long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
-//            setWeatherIcon(actualId, sunrise, sunset);
+            setWeatherIcon(iconsIdD.get(0), tv_Icon1, true);
+            setWeatherIcon(iconsIdD.get(1), tv_Icon2, true);
+            setWeatherIcon(iconsIdD.get(2), tv_Icon3, true);
+            setWeatherIcon(iconsIdN.get(0), tv_Icon4, false);
+            setWeatherIcon(iconsIdN.get(1), tv_Icon5, false);
+            setWeatherIcon(iconsIdN.get(2), tv_Icon6, false);
 
         } catch (Exception e) {
             Log.d(LOG_TAG, "One or severa data missing");
@@ -166,5 +160,41 @@ public class Forecast extends Fragment {
             renderForecast(answer);
             loadIndicator.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void setWeatherIcon(int actualId, TextView weatherIcon, boolean isDayTime) {
+        int id = actualId / 100;
+        String icon = "";
+
+        if (actualId == 800) {
+            if(isDayTime)
+                icon = getActivity().getString(R.string.weather_sunny);
+            else
+                icon = getActivity().getString(R.string.weather_clear_night);
+        } else {
+            switch (id) {
+                case 2:
+                    icon = getActivity().getString(R.string.weather_thunder);
+                    break;
+                case 3:
+                    icon = getActivity().getString(R.string.weather_drizzly);
+                    break;
+                case 5:
+                    icon = getActivity().getString(R.string.weather_rainy);
+                    break;
+                case 6:
+                    icon = getActivity().getString(R.string.weather_snowy);
+                    break;
+                case 7:
+                    icon = getActivity().getString(R.string.weather_foggy);
+                    break;
+                case 8:
+                    icon = getActivity().getString(R.string.weather_cloudy);
+                    break;
+                default:
+                    break;
+            }
+        }
+        weatherIcon.setText(icon);
     }
 }

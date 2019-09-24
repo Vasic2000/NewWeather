@@ -16,7 +16,6 @@ import java.net.URL;
 public class NetworkUtils {
     //https://api.openweathermap.org/data/2.5/weather?q=Mytishchi&APPID=07795d846f9c55c418379de9d14962e7
     //https://api.openweathermap.org/data/2.5/forecast?q=Moscow&APPID=07795d846f9c55c418379de9d14962e7
-    //https://api.openweathermap.org/data/2.5/weather?forecast=Mytishchi&APPID=07795d846f9c55c418379de9d14962e7
 
     private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/";
     private static final String OPEN_WEATHER_METHOD = "data/2.5/weather";

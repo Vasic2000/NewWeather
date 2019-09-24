@@ -2,7 +2,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="city_font_size">30sp</dimen>
     <dimen name="icon_font_size">75sp</dimen>
-    <dimen name="temperature_font_size">30sp</dimen>
+    <dimen name="temperature_font_size">25sp</dimen>
     <dimen name="MargineTopFirst">15dp</dimen>
+    <dimen name="MargineLeftFirst">5dp</dimen>
     <dimen name="Temperature">50sp</dimen>
 </resources>
