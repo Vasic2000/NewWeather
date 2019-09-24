@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="city_font_size">30sp</dimen>
-    <dimen name="icon_font_size">75sp</dimen>
-    <dimen name="temperature_font_size">25sp</dimen>
-    <dimen name="MargineTopFirst">15dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="city_font_size">35sp</dimen>
+    <dimen name="icon_font_size">65sp</dimen>
+    <dimen name="icon_1_font_size">75sp</dimen>
+    <dimen name="temperature_font_size">45sp</dimen>
+    <dimen name="temperature_small_font_size">20sp</dimen>
+    <dimen name="data_font_size">20sp</dimen>
+    <dimen name="date_font_size">15sp</dimen>
+    <dimen name="MargineTopFirst">5dp</dimen>
     <dimen name="MargineLeftFirst">5dp</dimen>
-    <dimen name="Temperature">50sp</dimen>
 </resources>

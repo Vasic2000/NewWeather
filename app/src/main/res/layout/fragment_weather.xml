@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/weathericons"
         android:text="10"
-        android:textSize="@dimen/icon_font_size"
+        android:textSize="@dimen/icon_1_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_field" />
@@ -50,7 +50,7 @@
         android:layout_below="@id/temperature_field"
         android:layout_centerHorizontal="true"
         android:text="10"
-        android:textSize="@dimen/temperature_font_size"
+        android:textSize="@dimen/data_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperature_field" />

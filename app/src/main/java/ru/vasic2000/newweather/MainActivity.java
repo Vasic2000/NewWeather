@@ -46,8 +46,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     //Чтобы по кнопке назад не оставалось пустого экрана без фрагмента
+    //Чтобы по кнопке назад возвращался в предыдущий фрагмент
     public void onBackPressed() {
-        finish();
+        List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
+        if(fragmentsList.size() <= 1)
+            finish();
+        else {
+            removeFragment(fragmentsList.get(fragmentsList.size()-1));
+        }
     }
 
     private void initFragments() {
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
         if (!fragmentsList.contains(fragment))
         // Добавить фрагмент
-            fragmentTransaction.add(R.id.container_for_fragment, fragment);
+        fragmentTransaction.add(R.id.container_for_fragment, fragment);
         fragmentTransaction.addToBackStack("");
         // Закрыть транзакцию
         fragmentTransaction.commit();
@@ -95,14 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "Setting???", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Doesn\'t work", Toast.LENGTH_LONG).show();
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_change_city) {
             addFragment(fragment_changeCity);
-            Toast.makeText(this, "I can't!!!", Toast.LENGTH_LONG).show();
             return true;
         }
 
