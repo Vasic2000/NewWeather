@@ -9,4 +9,5 @@
     <dimen name="data_font_size">20sp</dimen>
     <dimen name="MargineTopFirst">5dp</dimen>
     <dimen name="MargineLeftFirst">5dp</dimen>
+    <dimen name="indicatorSize">200dp</dimen>
 </resources>
