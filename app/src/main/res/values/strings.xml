@@ -17,5 +17,11 @@
     <string name="input_new_city">Input new city</string>
     <string name="hint_Input">Input New city</string>
     <string name="go_back2">Go back</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="bright_theme">Bright theme</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+    <string name="setlanguage">Language</string>
+    <string name="settheme">Theme</string>
 
 </resources>

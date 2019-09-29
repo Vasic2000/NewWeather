@@ -95,7 +95,8 @@ public class Forecast extends Fragment {
         });
 
         final MainActivity weatherActivity = (MainActivity) getActivity();
-        updateForecastData(new CityPreference(weatherActivity).getCity());
+        CityPreference ct = new CityPreference(weatherActivity);
+        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage() );
 
         return forecast;
     }
@@ -155,8 +156,8 @@ public class Forecast extends Fragment {
         }
     }
 
-    private void updateForecastData(String city) {
-        URL generatedURL = generateURLforecast(city);
+    public void updateForecastData(String city, String language) {
+        URL generatedURL = generateURLforecast(city, language);
         new MakeForecast().execute(generatedURL);
     }
 

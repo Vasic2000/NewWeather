@@ -57,7 +57,8 @@ public class Weather extends Fragment {
         forecast = rootView.findViewById(R.id.tv_forecast);
 
         final MainActivity weatherActivity = (MainActivity) getActivity();
-        updateWeatherData(new CityPreference(weatherActivity).getCity());
+        CityPreference ct = new CityPreference(weatherActivity);
+        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage() );
 
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +68,16 @@ public class Weather extends Fragment {
         });
     }
 
-    private void updateWeatherData(String city) {
-        URL generatedURL = generateURL(city);
+    @Override
+    public void onResume() {
+        super.onResume();
+        final MainActivity weatherActivity = (MainActivity) getActivity();
+        CityPreference ct = new CityPreference(weatherActivity);
+        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage());
+    }
+
+    public void updateWeatherData(String city, String language) {
+        URL generatedURL = generateURL(city, language);
         new actualWeather().execute(generatedURL);
     }
 
@@ -83,8 +92,13 @@ public class Weather extends Fragment {
             String st2 = main.getString("humidity");
             String st3 = main.getString("pressure");
 
-            detailsTextView.setText(st1 + "\n" +
-                    "Humidity: " + st2 + "%\n" + st3 + "hpa");
+            if(Locale.getDefault().getLanguage().equals("ru")) {
+                detailsTextView.setText(st1 + "\n" +
+                        "Влажность: " + st2 + "%\n" + st3 + "кПа");
+            } else  {
+                detailsTextView.setText(st1 + "\n" +
+                        "Humidity: " + st2 + "%\n" + st3 + "hpa");
+            }
 
             Double temp = main.getDouble("temp") - 273.15;
 
@@ -146,7 +160,7 @@ public class Weather extends Fragment {
     }
 
     public void changeCity(String city) {
-        updateWeatherData(city);
+        updateWeatherData(city, Locale.getDefault().getLanguage());
     }
 
     class actualWeather extends AsyncTask<URL, Void, String> {

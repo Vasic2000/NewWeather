@@ -1,8 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Activities.Setting">
 
-</FrameLayout>
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="114dp"
+        android:layout_height="84dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367">
+
+        <TextView
+            android:id="@+id/set_Language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setlanguage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/rb_RU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/russian" />
+
+        <RadioButton
+            android:id="@+id/rb_EN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="118dp"
+        android:layout_height="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/set_Theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/rb_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bright_theme" />
+
+        <RadioButton
+            android:id="@+id/rb_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dark_theme" />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class CityPreference {
     private static final String KEY = "city";
     private static final String MOSCOW = "Moscow";
+
     private SharedPreferences userPrefereces; //Спец класс для длительного хранения
 
     public CityPreference(Activity activity) {
@@ -19,4 +20,5 @@ public class CityPreference {
     public void setCity(String city) {
         userPrefereces.edit().putString(KEY, city).apply();
     }
+
 }

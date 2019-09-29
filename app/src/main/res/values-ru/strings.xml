@@ -18,4 +18,11 @@
     <string name="input_new_city">Новый город</string>
     <string name="hint_Input">Новый город</string>
     <string name="go_back2">Вернуться</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="bright_theme">Светлая тема</string>
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+    <string name="setlanguage">Язык</string>
+    <string name="settheme">Тема</string>
+
 </resources>
