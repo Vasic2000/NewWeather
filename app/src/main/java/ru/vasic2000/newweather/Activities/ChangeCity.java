@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Locale;
-
 import ru.vasic2000.newweather.MainActivity;
 import ru.vasic2000.newweather.R;
 
