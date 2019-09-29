@@ -68,14 +68,6 @@ public class Weather extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        final MainActivity weatherActivity = (MainActivity) getActivity();
-        CityPreference ct = new CityPreference(weatherActivity);
-        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage());
-    }
-
     public void updateWeatherData(String city, String language) {
         URL generatedURL = generateURL(city, language);
         new actualWeather().execute(generatedURL);

@@ -161,6 +161,10 @@ public class Forecast extends Fragment {
         new MakeForecast().execute(generatedURL);
     }
 
+    public void changeCity(String city) {
+        updateForecastData(city, Locale.getDefault().getLanguage());
+    }
+
     class MakeForecast extends AsyncTask<URL, Void, String> {
         @Override
         protected void onPreExecute() {
