@@ -9,7 +9,7 @@
     android:background="#FFFFFF"
     tools:context=".Activities.ChangeCity">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/et_city_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,13 +21,14 @@
         android:autofillHints="@string/hint_Input"
         android:hint="@string/input_new_city"
         android:text=""
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05">
 
-    </EditText>
+    </com.google.android.material.textfield.TextInputEditText>
 
     <Button
         android:id="@+id/btn_changeCity"

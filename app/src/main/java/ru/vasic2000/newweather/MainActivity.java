@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeCity(String city) {
         fragment_weather.changeCity(city);
-        fragment_forecast.changeCity(city);
+        if(fragment_forecast.getActivity()!=null)
+            fragment_forecast.changeCity(city);
         cityPreference.setCity(city);
     }
 
