@@ -82,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.popBackStack();
     }
 
+    public void changeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container_for_fragment, fragment);
+        fragmentTransaction.commit();
+    }
+
 
 
     @Override
@@ -108,9 +114,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeCity(String city) {
-        fragment_weather.changeCity(city);
-        if(fragment_forecast.getActivity()!=null)
-            fragment_forecast.changeCity(city);
         cityPreference.setCity(city);
     }
 
