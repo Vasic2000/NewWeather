@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ru.vasic2000.newweather.CityPreference;
-import ru.vasic2000.newweather.MainActivity;
+import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 import static ru.vasic2000.newweather.Network.NetworkUtils.generateURL;
@@ -45,6 +45,12 @@ public class Weather extends Fragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_weather, container, false);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -56,14 +62,14 @@ public class Weather extends Fragment {
         loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
         forecast = rootView.findViewById(R.id.tv_forecast);
 
-        final MainActivity weatherActivity = (MainActivity) getActivity();
-        CityPreference ct = new CityPreference(weatherActivity);
+        final MainActivity ma = (MainActivity) getActivity();
+        CityPreference ct = new CityPreference(ma);
         updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage() );
 
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weatherActivity.addFragment(weatherActivity.fragment_forecast);
+                ma.addFragment(ma.fragment_forecast);
             }
         });
     }
@@ -143,12 +149,6 @@ public class Weather extends Fragment {
             }
         }
         weatherIcon.setText(icon);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weather, container, false);
     }
 
     public void changeCity(String city) {

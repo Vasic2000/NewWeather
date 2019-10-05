@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.Fragments;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.vasic2000.newweather.MainActivity;
+import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 public class ChangeCity extends Fragment {
@@ -31,7 +31,12 @@ public class ChangeCity extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
-                ma.changeCity(city_field.getText().toString());
+                String newCity = city_field.getText().toString();
+                if(ma.fragment_weather.getActivity() !=null)
+                    ma.fragment_weather.changeCity(newCity);
+                if(ma.fragment_forecast.getActivity() !=null)
+                    ma.fragment_forecast.changeCity(newCity);
+                ma.reDraw(newCity);
                 ma.removeFragment(ma.fragment_changeCity);
             }
         });

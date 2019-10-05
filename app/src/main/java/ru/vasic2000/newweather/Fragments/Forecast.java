@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import ru.vasic2000.newweather.CityPreference;
-import ru.vasic2000.newweather.MainActivity;
+import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 import static ru.vasic2000.newweather.Network.NetworkUtils.generateURLforecast;
@@ -61,7 +61,15 @@ public class Forecast extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View forecast = inflater.inflate(R.layout.fragment_forecast, container, false);
+        return inflater.inflate(R.layout.fragment_forecast, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View forecast = getView();
+
         tv_city = forecast.findViewById(R.id.city_forecast);
         tv_goBack = forecast.findViewById(R.id.tv_return);
         loadIndicator = forecast.findViewById(R.id.pb_loading_indicator);
@@ -86,6 +94,9 @@ public class Forecast extends Fragment {
         tv_date2 = forecast.findViewById(R.id.date_2);
         tv_date3 = forecast.findViewById(R.id.date_3);
 
+        final MainActivity weatherActivity = (MainActivity) getActivity();
+        CityPreference ct = new CityPreference(weatherActivity);
+        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage());
 
         tv_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,12 +105,6 @@ public class Forecast extends Fragment {
                 ma.removeFragment(ma.fragment_forecast);
             }
         });
-
-        final MainActivity weatherActivity = (MainActivity) getActivity();
-        CityPreference ct = new CityPreference(weatherActivity);
-        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage() );
-
-        return forecast;
     }
 
     private void renderForecast(JSONObject json) {
