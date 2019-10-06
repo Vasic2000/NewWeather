@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-import ru.vasic2000.newweather.MainActivity;
+import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 
