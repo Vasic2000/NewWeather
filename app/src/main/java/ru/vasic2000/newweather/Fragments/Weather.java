@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -47,7 +48,8 @@ public class Weather extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weather, container, false);
+        View weather = inflater.inflate(R.layout.fragment_weather, container, false);
+        return weather;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class Weather extends Fragment {
 
         final MainActivity ma = (MainActivity) getActivity();
         CityPreference ct = new CityPreference(ma);
-        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage() );
+        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage(), ct.getSecretKey());
 
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +76,8 @@ public class Weather extends Fragment {
         });
     }
 
-    public void updateWeatherData(String city, String language) {
-        URL generatedURL = generateURL(city, language);
+    public void updateWeatherData(String city, String language, String SecretKey) {
+        URL generatedURL = generateURL(city, language, SecretKey);
         new actualWeather().execute(generatedURL);
     }
 
@@ -109,6 +111,7 @@ public class Weather extends Fragment {
             setWeatherIcon(actualId, sunrise, sunset);
 
         } catch (Exception e) {
+            Toast.makeText(getContext(), "Нет такого города!", Toast.LENGTH_LONG).show();
             Log.d(LOG_TAG, "One or several data missing");
         }
     }
@@ -151,8 +154,8 @@ public class Weather extends Fragment {
         weatherIcon.setText(icon);
     }
 
-    public void changeCity(String city) {
-        updateWeatherData(city, Locale.getDefault().getLanguage());
+    public void changeCity(String city, String key) {
+        updateWeatherData(city, Locale.getDefault().getLanguage(), key);
     }
 
     class actualWeather extends AsyncTask<URL, Void, String> {

@@ -96,7 +96,7 @@ public class Forecast extends Fragment {
 
         final MainActivity weatherActivity = (MainActivity) getActivity();
         CityPreference ct = new CityPreference(weatherActivity);
-        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage());
+        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage(), ct.getSecretKey());
 
         tv_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,13 +162,13 @@ public class Forecast extends Fragment {
         }
     }
 
-    public void updateForecastData(String city, String language) {
-        URL generatedURL = generateURLforecast(city, language);
+    public void updateForecastData(String city, String language, String secretKey) {
+        URL generatedURL = generateURLforecast(city, language, secretKey);
         new MakeForecast().execute(generatedURL);
     }
 
-    public void changeCity(String city) {
-        updateForecastData(city, Locale.getDefault().getLanguage());
+    public void changeCity(String city, String key) {
+        updateForecastData(city, Locale.getDefault().getLanguage(), key);
     }
 
     class MakeForecast extends AsyncTask<URL, Void, String> {
