@@ -106,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public String getSecretKey() {
+        return cityPreference.getSecretKey();
+    }
+
     public void reDraw(String city) {
         cityPreference.setCity(city);
 
