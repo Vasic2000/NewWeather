@@ -1,17 +1,16 @@
 package ru.vasic2000.newweather.Fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,8 +19,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
 import static ru.vasic2000.newweather.Network.NetworkUtils.generateURLforecast;
@@ -163,32 +162,52 @@ public class Forecast extends Fragment {
     }
 
     public void updateForecastData(String city, String language, String secretKey) {
-        URL generatedURL = generateURLforecast(city, language, secretKey);
-        new MakeForecast().execute(generatedURL);
+        final URL generatedURL = generateURLforecast(city, language, secretKey);
+        final Handler handler = new Handler();
+
+        loadIndicator.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String response = getResponseFromURL(generatedURL);
+                final JSONObject answer = getJSONData(response);
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        renderForecast(answer);
+                        loadIndicator.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+        }).start();
+
+//        new MakeForecast().execute(generatedURL);
     }
 
     public void changeCity(String city, String key) {
         updateForecastData(city, Locale.getDefault().getLanguage(), key);
     }
 
-    class MakeForecast extends AsyncTask<URL, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            loadIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(URL... urls) {
-            return getResponseFromURL(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            JSONObject answer = getJSONData(response);
-            renderForecast(answer);
-            loadIndicator.setVisibility(View.INVISIBLE);
-        }
-    }
+//    class MakeForecast extends AsyncTask<URL, Void, String> {
+//        @Override
+//        protected void onPreExecute() {
+//            loadIndicator.setVisibility(View.VISIBLE);
+//        }
+//
+//        @Override
+//        protected String doInBackground(URL... urls) {
+//            return getResponseFromURL(urls[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String response) {
+//            JSONObject answer = getJSONData(response);
+//            renderForecast(answer);
+//            loadIndicator.setVisibility(View.INVISIBLE);
+//        }
+//    }
 
     private void setWeatherIcon(int actualId, TextView weatherIcon, boolean isDayTime) {
         int id = actualId / 100;

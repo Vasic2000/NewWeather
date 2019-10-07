@@ -1,15 +1,14 @@
 package ru.vasic2000.newweather.Activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.util.List;
 
@@ -112,11 +111,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void reDraw(String city) {
         cityPreference.setCity(city);
-
-//        if(fragment_weather.getActivity() != null)
-//            fragment_weather.changeCity(city);
-//
-//        if(fragment_forecast.getActivity() != null)
-//            fragment_forecast.changeCity(city);
     }
 }
