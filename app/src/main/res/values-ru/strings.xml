@@ -24,5 +24,8 @@
     <string name="english">Английский</string>
     <string name="setlanguage">Язык</string>
     <string name="settheme">Тема</string>
+    <string name="additions">Бонусы</string>
+    <string name="game_1">Игра 1</string>
+    <string name="game_2">Игра 2</string>
 
 </resources>
