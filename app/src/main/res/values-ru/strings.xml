@@ -27,5 +27,6 @@
     <string name="additions">Бонусы</string>
     <string name="game_1">Игра 1</string>
     <string name="game_2">Игра 2</string>
+    <string name="forecast_btn">Прогноз</string>
 
 </resources>

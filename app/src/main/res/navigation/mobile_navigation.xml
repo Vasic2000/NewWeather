@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml"
+    app:startDestination="@id/weather">
+    <fragment
+        android:id="@+id/weather"
+        android:name="ru.vasic2000.newweather.Fragments.Weather"
+        android:label="fragment_forecast"
+        tools:layout="@layout/fragment_forecast" />
+    <fragment
+        android:id="@+id/changeCity2"
+        android:name="ru.vasic2000.newweather.Fragments.ChangeCity"
+        android:label="fragment_change_sity"
+        tools:layout="@layout/fragment_change_sity" />
+    <fragment
+        android:id="@+id/setting"
+        android:name="ru.vasic2000.newweather.Fragments.Setting"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+</navigation>

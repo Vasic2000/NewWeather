@@ -26,5 +26,6 @@
     <string name="additions">Additions</string>
     <string name="game_1">Game 1</string>
     <string name="game_2">Game 2</string>
+    <string name="forecast_btn">Forecast</string>
 
 </resources>

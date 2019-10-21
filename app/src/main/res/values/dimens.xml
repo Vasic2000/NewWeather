@@ -11,4 +11,5 @@
     <dimen name="MargineTopFirst">5dp</dimen>
     <dimen name="MargineLeftFirst">5dp</dimen>
     <dimen name="indicatorSize">250dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>
