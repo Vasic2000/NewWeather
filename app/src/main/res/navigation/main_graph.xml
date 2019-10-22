@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_graph">
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_graph"
+    app:startDestination="@id/weather">
 
+    <fragment
+        android:id="@+id/weather"
+        android:name="ru.vasic2000.newweather.Fragments.Weather"
+        android:label="Weather" >
+        <action
+            android:id="@+id/action_weather_to_forecast"
+            app:destination="@id/forecast" />
+        <action
+            android:id="@+id/action_weather_to_changeCity"
+            app:destination="@id/changeCity" />
+        <action
+            android:id="@+id/action_weather_to_setting"
+            app:destination="@id/setting" />
+    </fragment>
+    <fragment
+        android:id="@+id/forecast"
+        android:name="ru.vasic2000.newweather.Fragments.Forecast"
+        android:label="Forecast" >
+        <action
+            android:id="@+id/action_forecast_to_changeCity"
+            app:destination="@id/changeCity" />
+        <action
+            android:id="@+id/action_forecast_to_setting"
+            app:destination="@id/setting" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCity"
+        android:name="ru.vasic2000.newweather.Fragments.ChangeCity"
+        android:label="ChangeCity" />
+    <fragment
+        android:id="@+id/setting"
+        android:name="ru.vasic2000.newweather.Fragments.Setting"
+        android:label="Setting" />
 </navigation>

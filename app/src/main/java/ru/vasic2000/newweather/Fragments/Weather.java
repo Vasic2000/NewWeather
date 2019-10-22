@@ -41,11 +41,6 @@ public class Weather extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View weather = inflater.inflate(R.layout.fragment_weather, container, false);
@@ -71,7 +66,7 @@ public class Weather extends Fragment {
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ma.addFragment(ma.fragment_forecast);
+                ma.changeFragment(R.id.forecast);
             }
         });
     }

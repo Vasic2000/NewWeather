@@ -23,10 +23,10 @@ public class Setting extends Fragment {
     RadioButton themeBright;
     TextView goBack;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +65,8 @@ public class Setting extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity ma = (MainActivity) getActivity();
-                ma.removeFragment(ma.fragment_setting);
+                ma.fragmentBack();
+//                ma.removeFragment(ma.fragment_setting);
             }
         });
 
