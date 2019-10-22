@@ -2,14 +2,23 @@ package ru.vasic2000.newweather.Activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
@@ -20,7 +29,9 @@ import ru.vasic2000.newweather.Fragments.Setting;
 import ru.vasic2000.newweather.Fragments.Weather;
 import ru.vasic2000.newweather.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private AppBarConfiguration mAppBarConfiguration;
 
     public Weather fragment_weather;
     public Forecast fragment_forecast;
@@ -33,10 +44,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initFragments();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_current_weather, R.id.nav_forecast, R.id.nav_change_city,
+                R.id.nav_setting, R.id.nav_game1, R.id.nav_game3)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        initFragments();
+
         cityPreference = new CityPreference(this);
 
         if(savedInstanceState == null) {
@@ -118,5 +143,30 @@ public class MainActivity extends AppCompatActivity {
 //
 //        if(fragment_forecast.getActivity() != null)
 //            fragment_forecast.changeCity(city);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        // Handle navigation view item clicks here.
+        int id = menuItem.getItemId();
+
+        if (id == R.id.nav_current_weather) {
+            // Handle the camera action
+        } else if (id == R.id.nav_forecast) {
+
+        } else if (id == R.id.nav_change_city) {
+
+        } else if (id == R.id.nav_setting) {
+
+        } else if (id == R.id.nav_game1) {
+
+        } else if (id == R.id.nav_game3) {
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
