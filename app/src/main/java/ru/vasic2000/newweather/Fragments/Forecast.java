@@ -103,7 +103,6 @@ public class Forecast extends Fragment {
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
                 ma.fragmentBack();
-//                ma.removeFragment(ma.fragment_forecast);
             }
         });
     }

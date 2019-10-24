@@ -23,5 +23,15 @@
     <string name="english">English</string>
     <string name="setlanguage">Language</string>
     <string name="settheme">Theme</string>
+    <string name="bonus">Bonus</string>
+    <string name="rgb_game">RGB-Game</string>
+    <string name="maze">Maze</string>
+
+
+    <string name="No_game1">No games in freeware version</string>
+    <string name="No_game3">No games in freeware version</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

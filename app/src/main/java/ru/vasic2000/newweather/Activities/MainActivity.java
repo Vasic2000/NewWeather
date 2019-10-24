@@ -104,13 +104,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.action_settings) {
             navController.navigate(R.id.setting);
-//            addFragment(fragment_setting);
             return true;
         }
 
         if (id == R.id.action_change_city) {
             navController.navigate(R.id.changeCity);
-//            addFragment(fragment_changeCity);
+            return true;
+        }
+
+        if (id == R.id.action_game1) {
+            navController.navigate(R.id.game_1);
+            return true;
+        }
+
+        if (id == R.id.action_game3) {
+            navController.navigate(R.id.game_3);
             return true;
         }
 

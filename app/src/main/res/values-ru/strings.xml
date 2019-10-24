@@ -24,5 +24,10 @@
     <string name="english">Английский</string>
     <string name="setlanguage">Язык</string>
     <string name="settheme">Тема</string>
+    <string name="bonus">Bonus</string>
+    <string name="rgb_game">RGB-Game</string>
+    <string name="maze">Maze</string>
+    <string name="No_game1">No games in freeware version</string>
+    <string name="No_game3">No games in freeware version</string>
 
 </resources>
