@@ -3,15 +3,14 @@ package ru.vasic2000.newweather.Activities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +28,9 @@ import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
+
     private NavController navController;
+    private DrawerLayout drawer;
 
     public Weather fragment_weather;
     public Forecast fragment_forecast;
@@ -46,18 +46,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_current_weather, R.id.nav_forecast, R.id.nav_change_city,
-                R.id.nav_setting, R.id.nav_game1, R.id.nav_game3)
-                .setDrawerLayout(drawer)
-                .build();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
         initFragments();
 
@@ -76,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Чтобы по кнопке назад возвращался в предыдущий фрагмент
     public void onBackPressed() {
         List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
-        if(fragmentsList.size() <= 1)
+
+        if((fragmentsList.size() <= 1) && (fragmentsList.get(0).getClass().equals(fragment_weather)))
             finish();
         else {
             fragmentBack();
-//            removeFragment(fragmentsList.get(fragmentsList.size()-1));
         }
     }
 
@@ -141,25 +137,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        // Handle navigation view item clicks here.
         int id = menuItem.getItemId();
 
-        if (id == R.id.weather) {
-            navController.navigate(id);
-        } else if (id == R.id.forecast) {
-            navController.navigate(id);
-        } else if (id == R.id.changeCity) {
-            navController.navigate(id);
-        } else if (id == R.id.setting) {
-            navController.navigate(id);
+        if (id == R.id.nav_current_weather) {
+            navController.navigate(R.id.weather);
+        } else if (id == R.id.nav_forecast) {
+            navController.navigate(R.id.forecast);
+        } else if (id == R.id.nav_setting) {
+            navController.navigate(R.id.setting);
+        } else if (id == R.id.nav_change_city) {
+            navController.navigate(R.id.changeCity);
         } else if (id == R.id.nav_game1) {
-            navController.navigate(id);
+            navController.navigate(R.id.game_1);
         } else if (id == R.id.nav_game3) {
-            navController.navigate(id);
+            navController.navigate(R.id.game_3);
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
