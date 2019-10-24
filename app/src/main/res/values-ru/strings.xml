@@ -32,5 +32,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="Header">Заголовок</string>
+    <string name="HeaderName">Новое погодное</string>
+    <string name="e_mail">vasic2000@yandex.ru</string>
 
 </resources>

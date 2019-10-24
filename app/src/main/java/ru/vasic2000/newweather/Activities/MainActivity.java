@@ -7,17 +7,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.List;
 
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.Fragments.ChangeCity;
@@ -68,12 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    //Чтобы по кнопке назад не оставалось пустого экрана без фрагмента
-    //Чтобы по кнопке назад возвращался в предыдущий фрагмент
+    //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
+    //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
-        List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
 
-        if((fragmentsList.size() <= 1) && (fragmentsList.get(0).getClass().equals(fragment_weather)))
+        int bbb = navController.getCurrentDestination().getId();
+        int aaa = navController.getGraph().getStartDestination();
+
+        if(bbb == aaa)
             finish();
         else {
             fragmentBack();

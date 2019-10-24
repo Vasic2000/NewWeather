@@ -11,4 +11,9 @@
     <dimen name="MargineTopFirst">5dp</dimen>
     <dimen name="MargineLeftFirst">5dp</dimen>
     <dimen name="indicatorSize">250dp</dimen>
+    <dimen name="Loader_Size">200dp</dimen>
+    <dimen name="margineStart">16dp</dimen>
+    <dimen name="margineLeft">16dp</dimen>
+    <dimen name="margineEnd">16dp</dimen>
+    <dimen name="margineRight">16dp</dimen>
 </resources>

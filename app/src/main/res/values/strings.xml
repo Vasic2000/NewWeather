@@ -33,5 +33,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="Header">The Header</string>
+    <string name="HeaderName">My new weather</string>
+    <string name="e_mail">vasic2000@yandex.ru</string>
 
 </resources>
