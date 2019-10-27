@@ -2,30 +2,28 @@ package ru.vasic2000.newweather.Activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
+import com.google.android.material.navigation.NavigationView;
 
 import ru.vasic2000.newweather.CityPreference;
-import ru.vasic2000.newweather.Fragments.ChangeCity;
-import ru.vasic2000.newweather.Fragments.Forecast;
-import ru.vasic2000.newweather.Fragments.Setting;
-import ru.vasic2000.newweather.Fragments.Weather;
 import ru.vasic2000.newweather.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public Weather fragment_weather;
-    public Forecast fragment_forecast;
-    public ChangeCity fragment_changeCity;
-    public Setting fragment_setting;
+
+    private NavController navController;
+    private DrawerLayout drawer;
     private CityPreference cityPreference;
 
     @Override
@@ -33,54 +31,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initFragments();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
-
-        if(savedInstanceState == null) {
-            addFragment(fragment_weather);
-        }
-    }
-
-    private void initFragments() {
-        fragment_weather = new Weather();
-        fragment_forecast = new Forecast();
-        fragment_setting = new Setting();
-        fragment_changeCity = new ChangeCity();
     }
 
     @Override
-    //Чтобы по кнопке назад не оставалось пустого экрана без фрагмента
-    //Чтобы по кнопке назад возвращался в предыдущий фрагмент
+    //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
+    //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
-        List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
-        if(fragmentsList.size() <= 1)
+
+        int bbb = navController.getCurrentDestination().getId();
+        int aaa = navController.getGraph().getStartDestination();
+
+        if(bbb == aaa)
             finish();
         else {
-            removeFragment(fragmentsList.get(fragmentsList.size()-1));
+            fragmentBack();
         }
     }
 
-    public void addFragment(Fragment fragment){
-        // Открыть транзакцию
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        List<Fragment> fragmentsList = getSupportFragmentManager().getFragments();
-        if (!fragmentsList.contains(fragment))
-        // Добавить фрагмент
-        fragmentTransaction.add(R.id.container_for_fragment, fragment);
-        fragmentTransaction.addToBackStack("");
-        // Закрыть транзакцию
-        fragmentTransaction.commit();
+    public void changeFragment(int id) {
+        navController.navigate(id);
     }
 
-    public void removeFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.remove(fragment);
-        fragmentManager.popBackStack();
-        fragmentTransaction.commit();
+    public void fragmentBack() {
+        navController.popBackStack();
     }
 
     @Override
@@ -94,29 +79,63 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            addFragment(fragment_setting);
+            navController.navigate(R.id.setting);
             return true;
         }
 
         if (id == R.id.action_change_city) {
-            addFragment(fragment_changeCity);
+            navController.navigate(R.id.changeCity);
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            navController.navigate(R.id.aboutDeveloper);
+            return true;
+        }
+
+        if (id == R.id.action_feedback) {
+            navController.navigate(R.id.feedbackForm);
+            return true;
+        }
+
+        if (id == R.id.action_game1) {
+            navController.navigate(R.id.game_1);
+            return true;
+        }
+
+        if (id == R.id.action_game3) {
+            navController.navigate(R.id.game_3);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public String getSecretKey() {
-        return cityPreference.getSecretKey();
-    }
-
     public void reDraw(String city) {
         cityPreference.setCity(city);
+    }
 
-//        if(fragment_weather.getActivity() != null)
-//            fragment_weather.changeCity(city);
-//
-//        if(fragment_forecast.getActivity() != null)
-//            fragment_forecast.changeCity(city);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.nav_current_weather) {
+            navController.navigate(R.id.weather);
+        } else if (id == R.id.nav_forecast) {
+            navController.navigate(R.id.forecast);
+        } else if (id == R.id.nav_setting) {
+            navController.navigate(R.id.setting);
+        } else if (id == R.id.nav_change_city) {
+            navController.navigate(R.id.changeCity);
+        } else if (id == R.id.nav_about) {
+            navController.navigate(R.id.aboutDeveloper);
+        } else if (id == R.id.nav_feedback) {
+            navController.navigate(R.id.feedbackForm);
+        } else if (id == R.id.nav_game1) {
+            navController.navigate(R.id.game_1);
+        } else if (id == R.id.nav_game3) {
+            navController.navigate(R.id.game_3);
+        }
+        return true;
     }
 }

@@ -9,10 +9,12 @@
     android:padding="@dimen/activity_vertical_margin"
     tools:context=".Fragments.Weather">
 
+    <!--        Харкод android.text = оставил для тестов, чтобы видеть при отладке потом удалю-->
+
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/Loader_Size"
+        android:layout_height="@dimen/Loader_Size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

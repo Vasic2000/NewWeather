@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/weather">
+
+    <fragment
+        android:id="@+id/weather"
+        android:name="ru.vasic2000.newweather.Fragments.Weather"
+        android:label="Weather" >
+        <action
+            android:id="@+id/action_weather_to_forecast"
+            app:destination="@id/forecast" />
+        <action
+            android:id="@+id/action_weather_to_changeCity"
+            app:destination="@id/changeCity" />
+        <action
+            android:id="@+id/action_weather_to_setting"
+            app:destination="@id/setting" />
+        <action
+            android:id="@+id/action_weather_to_game_1"
+            app:destination="@id/game_1" />
+        <action
+            android:id="@+id/action_weather_to_game_3"
+            app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_weather_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_weather_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/forecast"
+        android:name="ru.vasic2000.newweather.Fragments.Forecast"
+        android:label="Forecast" >
+        <action
+            android:id="@+id/action_forecast_to_changeCity"
+            app:destination="@id/changeCity" />
+        <action
+            android:id="@+id/action_forecast_to_setting"
+            app:destination="@id/setting" />
+        <action
+            android:id="@+id/action_forecast_to_game_1"
+            app:destination="@id/game_1" />
+        <action
+            android:id="@+id/action_forecast_to_game_3"
+            app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_forecast_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_forecast_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCity"
+        android:name="ru.vasic2000.newweather.Fragments.ChangeCity"
+        android:label="ChangeCity" >
+        <action
+            android:id="@+id/action_changeCity_to_game_1"
+            app:destination="@id/game_1" />
+        <action
+            android:id="@+id/action_changeCity_to_game_3"
+            app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_changeCity_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_changeCity_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting"
+        android:name="ru.vasic2000.newweather.Fragments.Setting"
+        android:label="Setting" >
+        <action
+            android:id="@+id/action_setting_to_game_1"
+            app:destination="@id/game_1" />
+        <action
+            android:id="@+id/action_setting_to_game_3"
+            app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_setting_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_setting_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/game_1"
+        android:name="ru.vasic2000.newweather.Fragments.Game_1"
+        android:label="fragment_game_3"
+        tools:layout="@layout/fragment_game_3" />
+    <fragment
+        android:id="@+id/game_3"
+        android:name="ru.vasic2000.newweather.Fragments.Game_3"
+        android:label="fragment_game_3"
+        tools:layout="@layout/fragment_game_3" />
+    <fragment
+        android:id="@+id/aboutDeveloper"
+        android:name="ru.vasic2000.newweather.Fragments.AboutDeveloper"
+        android:label="fragment_about_developer"
+        tools:layout="@layout/fragment_about_developer" />
+    <fragment
+        android:id="@+id/feedbackForm"
+        android:name="ru.vasic2000.newweather.Fragments.FeedbackForm"
+        android:label="fragment_feedback_form"
+        tools:layout="@layout/fragment_feedback_form" />
+</navigation>

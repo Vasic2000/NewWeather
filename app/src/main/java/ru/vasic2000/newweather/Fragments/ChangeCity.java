@@ -3,6 +3,8 @@ package ru.vasic2000.newweather.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,10 @@ import ru.vasic2000.newweather.R;
 
 public class ChangeCity extends Fragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,12 +34,8 @@ public class ChangeCity extends Fragment {
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
                 String newCity = city_field.getText().toString();
-                if(ma.fragment_weather.getActivity() !=null)
-                    ma.fragment_weather.changeCity(newCity, ma.getSecretKey());
-                if(ma.fragment_forecast.getActivity() !=null)
-                    ma.fragment_forecast.changeCity(newCity, ma.getSecretKey());
                 ma.reDraw(newCity);
-                ma.removeFragment(ma.fragment_changeCity);
+                ma.fragmentBack();
             }
         });
 
@@ -46,7 +44,7 @@ public class ChangeCity extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
-                ma.removeFragment(ma.fragment_changeCity);
+                ma.fragmentBack();
             }
         });
 

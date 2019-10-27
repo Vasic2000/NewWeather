@@ -53,10 +53,10 @@ public class Forecast extends Fragment {
     private TextView tv_temperatureNight3;
     private TextView tv_date3;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,7 +102,7 @@ public class Forecast extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
-                ma.removeFragment(ma.fragment_forecast);
+                ma.fragmentBack();
             }
         });
     }

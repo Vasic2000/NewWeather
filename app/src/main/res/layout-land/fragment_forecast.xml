@@ -9,6 +9,8 @@
     android:padding="@dimen/activity_vertical_margin"
     tools:context=".Fragments.Weather">
 
+    <!--        Харкод android.text = оставил для тестов, чтобы видеть при отладке потом удалю-->
+
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
         android:layout_width="@dimen/indicatorSize"

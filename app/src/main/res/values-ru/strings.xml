@@ -24,5 +24,24 @@
     <string name="english">Английский</string>
     <string name="setlanguage">Язык</string>
     <string name="settheme">Тема</string>
+    <string name="bonus">Бонусы</string>
+    <string name="rgb_game">Красный/Зелёный/Синий</string>
+    <string name="maze">Лабиринт</string>
+    <string name="No_game1">Пока игры нет :(</string>
+    <string name="No_game3">Пока игры нет :(</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="Header">Заголовок</string>
+    <string name="HeaderName">Новое погодное</string>
+    <string name="e_mail">vasic2000@yandex.ru</string>
+
+    <string name="About">Чернов Василий. Карьера в конструировании, проектировании и организации производства. Программирование - хобби. Есть опыт VBA. Автоматизация процессов в текущей работе. Но… Пришло понимание, что всё время сворачивал не туда, хочу превратить увлечение в свою новую профессию. Цель - Android. Более далёкая цель - разработка игр для мобильных устройств: Androidm, IOS, кто новый появится.</string>
+    <string name="Developer">О разработчике</string>
+    <string name="feedback">Связаться</string>
+    <string name="mail">e-почта: vasic2000@yandex.ru</string>
+    <string name="telegramm">Телеграмм: @Vasyator</string>
+    <string name="about_developer">О разработчике</string>
+    <string name="feedback2">Связаться</string>
 
 </resources>

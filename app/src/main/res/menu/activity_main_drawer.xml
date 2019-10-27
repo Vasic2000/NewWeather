@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_current_weather"
+            android:title="Now" />
+        <item
+            android:id="@+id/nav_forecast"
+            android:title="Forecast" />
+        <item
+            android:id="@+id/nav_change_city"
+            android:title="ChangeCity" />
+<!--        android:icon="@drawable/ic_menu_slideshow"-->
+        <item
+            android:id="@+id/nav_setting"
+            android:title="Setting" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:title="FeedBack" />
+    </group>
+
+    <item android:title="Bonus">
+        <menu>
+            <item
+                android:id="@+id/nav_game1"
+                android:title="Game 1" />
+            <item
+                android:id="@+id/nav_game3"
+                android:title="Game 3" />
+        </menu>
+    </item>
+
+</menu>
