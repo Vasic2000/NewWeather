@@ -11,6 +11,14 @@
         android:title="@string/change_city"
         app:showAsAction="never"/>
     <item
+    android:id="@+id/action_about"
+    android:title="@string/about_developer"
+    app:showAsAction="never" />
+    <item
+        android:id="@+id/action_feedback"
+        android:title="@string/feedback2"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_additions"
         android:title="@string/bonus"
         app:showAsAction="never">

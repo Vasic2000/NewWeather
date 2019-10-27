@@ -37,4 +37,12 @@
     <string name="HeaderName">My new weather</string>
     <string name="e_mail">vasic2000@yandex.ru</string>
 
+    <string name="About">Vasiliy Chernov. Leed engineer in OEM manufacturing of refrigerant technic. Programming - hobby. Experience in VBA. I\'m trying to change hobby to new profession. 1 goal - Android developing. Next goal - game developing for mobile devices: Androidm, IOS, something new in future.</string>
+    <string name="Developer">About</string>
+    <string name="feedback">Connect:</string>
+    <string name="mail">e-mail: vasic2000@yandex.ru</string>
+    <string name="telegramm">telegramm: @Vasyator</string>
+    <string name="about_developer">About developer</string>
+    <string name="feedback2">Feedback</string>
+
 </resources>

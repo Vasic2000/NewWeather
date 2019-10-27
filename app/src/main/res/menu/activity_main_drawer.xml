@@ -15,6 +15,12 @@
         <item
             android:id="@+id/nav_setting"
             android:title="Setting" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:title="FeedBack" />
     </group>
 
     <item android:title="Bonus">

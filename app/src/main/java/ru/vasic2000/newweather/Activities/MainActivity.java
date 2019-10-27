@@ -9,7 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
 import android.view.Menu;
@@ -18,7 +17,9 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.vasic2000.newweather.CityPreference;
+import ru.vasic2000.newweather.Fragments.AboutDeveloper;
 import ru.vasic2000.newweather.Fragments.ChangeCity;
+import ru.vasic2000.newweather.Fragments.FeedbackForm;
 import ru.vasic2000.newweather.Fragments.Forecast;
 import ru.vasic2000.newweather.Fragments.Setting;
 import ru.vasic2000.newweather.Fragments.Weather;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ChangeCity fragment_changeCity;
     public Setting fragment_setting;
     private CityPreference cityPreference;
+    private FeedbackForm fragment_feedBack;
+    private AboutDeveloper fragment_about;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment_forecast = new Forecast();
         fragment_setting = new Setting();
         fragment_changeCity = new ChangeCity();
+        fragment_feedBack = new FeedbackForm();
+        fragment_about = new AboutDeveloper();
     }
 
     @Override
@@ -108,6 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
+        if (id == R.id.action_about) {
+            navController.navigate(R.id.aboutDeveloper);
+            return true;
+        }
+
+        if (id == R.id.action_feedback) {
+            navController.navigate(R.id.feedbackForm);
+            return true;
+        }
+
         if (id == R.id.action_game1) {
             navController.navigate(R.id.game_1);
             return true;
@@ -147,6 +162,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.setting);
         } else if (id == R.id.nav_change_city) {
             navController.navigate(R.id.changeCity);
+
+        } else if (id == R.id.nav_about) {
+            navController.navigate(R.id.aboutDeveloper);
+        } else if (id == R.id.nav_feedback) {
+            navController.navigate(R.id.feedbackForm);
+
+
+
         } else if (id == R.id.nav_game1) {
             navController.navigate(R.id.game_1);
         } else if (id == R.id.nav_game3) {

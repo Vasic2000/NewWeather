@@ -25,6 +25,12 @@
         <action
             android:id="@+id/action_weather_to_game_3"
             app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_weather_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_weather_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
     </fragment>
     <fragment
         android:id="@+id/forecast"
@@ -42,6 +48,12 @@
         <action
             android:id="@+id/action_forecast_to_game_3"
             app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_forecast_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_forecast_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
     </fragment>
     <fragment
         android:id="@+id/changeCity"
@@ -53,6 +65,12 @@
         <action
             android:id="@+id/action_changeCity_to_game_3"
             app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_changeCity_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_changeCity_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
     </fragment>
     <fragment
         android:id="@+id/setting"
@@ -64,6 +82,12 @@
         <action
             android:id="@+id/action_setting_to_game_3"
             app:destination="@id/game_3" />
+        <action
+            android:id="@+id/action_setting_to_aboutDeveloper"
+            app:destination="@id/aboutDeveloper" />
+        <action
+            android:id="@+id/action_setting_to_feedbackForm"
+            app:destination="@id/feedbackForm" />
     </fragment>
     <fragment
         android:id="@+id/game_1"
@@ -75,4 +99,14 @@
         android:name="ru.vasic2000.newweather.Fragments.Game_3"
         android:label="fragment_game_3"
         tools:layout="@layout/fragment_game_3" />
+    <fragment
+        android:id="@+id/aboutDeveloper"
+        android:name="ru.vasic2000.newweather.Fragments.AboutDeveloper"
+        android:label="fragment_about_developer"
+        tools:layout="@layout/fragment_about_developer" />
+    <fragment
+        android:id="@+id/feedbackForm"
+        android:name="ru.vasic2000.newweather.Fragments.FeedbackForm"
+        android:label="fragment_feedback_form"
+        tools:layout="@layout/fragment_feedback_form" />
 </navigation>
