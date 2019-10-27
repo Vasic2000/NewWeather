@@ -17,12 +17,6 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.vasic2000.newweather.CityPreference;
-import ru.vasic2000.newweather.Fragments.AboutDeveloper;
-import ru.vasic2000.newweather.Fragments.ChangeCity;
-import ru.vasic2000.newweather.Fragments.FeedbackForm;
-import ru.vasic2000.newweather.Fragments.Forecast;
-import ru.vasic2000.newweather.Fragments.Setting;
-import ru.vasic2000.newweather.Fragments.Weather;
 import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,14 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private NavController navController;
     private DrawerLayout drawer;
-
-    public Weather fragment_weather;
-    public Forecast fragment_forecast;
-    public ChangeCity fragment_changeCity;
-    public Setting fragment_setting;
     private CityPreference cityPreference;
-    private FeedbackForm fragment_feedBack;
-    private AboutDeveloper fragment_about;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-        initFragments();
-
         cityPreference = new CityPreference(this);
-    }
-
-    private void initFragments() {
-        fragment_weather = new Weather();
-        fragment_forecast = new Forecast();
-        fragment_setting = new Setting();
-        fragment_changeCity = new ChangeCity();
-        fragment_feedBack = new FeedbackForm();
-        fragment_about = new AboutDeveloper();
     }
 
     @Override
@@ -136,18 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    public String getSecretKey() {
-        return cityPreference.getSecretKey();
-    }
-
     public void reDraw(String city) {
         cityPreference.setCity(city);
-
-        if(fragment_weather.getActivity() != null)
-            fragment_weather.changeCity(city, getSecretKey());
-
-        if(fragment_forecast.getActivity() != null)
-            fragment_forecast.changeCity(city, getSecretKey());
     }
 
     @Override
@@ -162,14 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.setting);
         } else if (id == R.id.nav_change_city) {
             navController.navigate(R.id.changeCity);
-
         } else if (id == R.id.nav_about) {
             navController.navigate(R.id.aboutDeveloper);
         } else if (id == R.id.nav_feedback) {
             navController.navigate(R.id.feedbackForm);
-
-
-
         } else if (id == R.id.nav_game1) {
             navController.navigate(R.id.game_1);
         } else if (id == R.id.nav_game3) {

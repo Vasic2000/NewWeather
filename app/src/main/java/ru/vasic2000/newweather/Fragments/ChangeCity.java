@@ -34,10 +34,6 @@ public class ChangeCity extends Fragment {
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
                 String newCity = city_field.getText().toString();
-                if(ma.fragment_weather.getActivity() !=null)
-                    ma.fragment_weather.changeCity(newCity, ma.getSecretKey());
-                if(ma.fragment_forecast.getActivity() !=null)
-                    ma.fragment_forecast.changeCity(newCity, ma.getSecretKey());
                 ma.reDraw(newCity);
                 ma.fragmentBack();
             }
