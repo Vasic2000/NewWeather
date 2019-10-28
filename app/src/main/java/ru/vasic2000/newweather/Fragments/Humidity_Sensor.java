@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
-public class Game_1 extends Fragment {
-    private TextView tv_goBack1;
+public class Humidity_Sensor extends Fragment {
+    private TextView tv_goBack3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_game_1, container, false);
+        return inflater.inflate(R.layout.fragment_humid_sensor, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View game1 = getView();
+        View game3 = getView();
 
-        tv_goBack1 = game1.findViewById(R.id.tv_return1);
+        tv_goBack3 = game3.findViewById(R.id.tv_return3);
 
-        tv_goBack1.setOnClickListener(new View.OnClickListener() {
+        tv_goBack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();

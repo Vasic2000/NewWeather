@@ -1,5 +1,9 @@
 package ru.vasic2000.newweather.Activities;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private CityPreference cityPreference;
 
+
+    public SensorManager sensorManager;
+    public Sensor sensorTemperature;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +51,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
+
+
+        // Менеджер датчиков
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        // Датчик температыры (у меня нет)
+        sensorTemperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        // Регистрируем слушатель датчика температуры
+        sensorManager.registerListener(listenerTemperature, sensorTemperature,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    // Слушатель датчика температуры
+    SensorEventListener listenerTemperature = new SensorEventListener() {
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            showTemperatureSensors(event);
+        }
+    };
+
+    // Вывод датчика температуры
+    private void showTemperatureSensors(SensorEvent event){
+        tv_temperature.setText(String.valueOf(event.values[0]));
     }
 
     @Override
@@ -98,13 +132,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        if (id == R.id.action_game1) {
-            navController.navigate(R.id.game_1);
+        if (id == R.id.action_t_sensor) {
+            navController.navigate(R.id.temperature_sensor);
             return true;
         }
 
-        if (id == R.id.action_game3) {
-            navController.navigate(R.id.game_3);
+        if (id == R.id.action_h_sensor) {
+            navController.navigate(R.id.humidity_sensor);
             return true;
         }
 
@@ -131,10 +165,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.aboutDeveloper);
         } else if (id == R.id.nav_feedback) {
             navController.navigate(R.id.feedbackForm);
-        } else if (id == R.id.nav_game1) {
-            navController.navigate(R.id.game_1);
-        } else if (id == R.id.nav_game3) {
-            navController.navigate(R.id.game_3);
+        } else if (id == R.id.nav_temp_sensor) {
+            navController.navigate(R.id.temperature_sensor);
+        } else if (id == R.id.nav_humid_sensor) {
+            navController.navigate(R.id.humidity_sensor);
         }
         return true;
     }

@@ -43,5 +43,11 @@
     <string name="telegramm">Телеграмм: @Vasyator</string>
     <string name="about_developer">О разработчике</string>
     <string name="feedback2">Связаться</string>
+    <string name="sensors">Датчики</string>
+    <string name="title_temperature">Датчик температуры</string>
+    <string name="title_humidity">Датчик относительной влажности</string>
+    <string name="sensors2">Sensors</string>
+    <string name="temperature2">Temperature</string>
+    <string name="humidity2">Humidity</string>
 
 </resources>

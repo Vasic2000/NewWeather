@@ -44,5 +44,11 @@
     <string name="telegramm">telegramm: @Vasyator</string>
     <string name="about_developer">About developer</string>
     <string name="feedback2">Feedback</string>
+    <string name="sensors">Sensors</string>
+    <string name="title_temperature">Temperature sensor</string>
+    <string name="title_humidity">Relative humidity sensor</string>
+    <string name="sensors2">Sensors</string>
+    <string name="temperature2">Temperature</string>
+    <string name="humidity2">Humidity</string>
 
 </resources>
