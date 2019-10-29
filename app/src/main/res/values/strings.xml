@@ -50,5 +50,8 @@
     <string name="sensors2">Sensors</string>
     <string name="temperature2">Temperature</string>
     <string name="humidity2">Humidity</string>
+    <string name="relative_humidity">Relative humidity</string>
+    <string name="temperature">Temperature</string>
+    <string name="no_sensor">No sensor!</string>
 
 </resources>

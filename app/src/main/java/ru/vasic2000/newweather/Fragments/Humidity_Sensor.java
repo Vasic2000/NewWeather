@@ -1,5 +1,10 @@
 package ru.vasic2000.newweather.Fragments;
 
+import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +14,17 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
-public class Humidity_Sensor extends Fragment {
+public class Humidity_Sensor extends Fragment implements SensorEventListener {
     private TextView tv_goBack3;
+    private TextView tv_humidity;
+
+    private SensorManager mSensorManager;
+    private Sensor sensorHumidity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,9 +35,10 @@ public class Humidity_Sensor extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View game3 = getView();
+        View tHumid = getView();
 
-        tv_goBack3 = game3.findViewById(R.id.tv_return3);
+        tv_goBack3 = tHumid.findViewById(R.id.tv_return3);
+        tv_humidity = tHumid.findViewById(R.id.tv_h_value);
 
         tv_goBack3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,5 +47,41 @@ public class Humidity_Sensor extends Fragment {
                 ma.fragmentBack();
             }
         });
+
+
+        // Менеджер датчиков
+        mSensorManager = (SensorManager) Objects.requireNonNull(this.getActivity()).getSystemService(Activity.SENSOR_SERVICE);
+        // Датчик влажности (у меня нет)
+        sensorHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+
+
+        // Слушатель датчика температуры
+        SensorEventListener listenerTemperature = new SensorEventListener() {
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                showTemperatureSensors(event);
+            }
+        };
+
+        // Регистрируем слушатель датчика температуры
+        mSensorManager.registerListener(listenerTemperature, sensorHumidity,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        showTemperatureSensors(sensorEvent);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    // Вывод датчика температуры
+    public void showTemperatureSensors(SensorEvent event){
+        tv_humidity.setText(String.valueOf(event.values[0]));
     }
 }

@@ -1,5 +1,6 @@
 package ru.vasic2000.newweather.Fragments;
 
+import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,14 +14,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.List;
+import java.util.Objects;
 
 import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
-public class Temperature_Sensor extends Fragment {
+
+public class Temperature_Sensor extends Fragment implements SensorEventListener {
     private TextView tv_goBack1;
     private TextView tv_temperature;
+
+    private SensorManager mSensorManager;
+    private Sensor sensorTemperature;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,5 +48,41 @@ public class Temperature_Sensor extends Fragment {
                 ma.fragmentBack();
             }
         });
+
+
+        // Менеджер датчиков
+        mSensorManager = (SensorManager) Objects.requireNonNull(this.getActivity()).getSystemService(Activity.SENSOR_SERVICE);
+        // Датчик температыры (у меня нет)
+        sensorTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+
+
+        // Слушатель датчика температуры
+        SensorEventListener listenerTemperature = new SensorEventListener() {
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                showTemperatureSensors(event);
+            }
+        };
+
+        // Регистрируем слушатель датчика температуры
+        mSensorManager.registerListener(listenerTemperature, sensorTemperature,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        showTemperatureSensors(sensorEvent);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    // Вывод датчика температуры
+    public void showTemperatureSensors(SensorEvent event){
+        tv_temperature.setText(String.valueOf(event.values[0]));
     }
 }

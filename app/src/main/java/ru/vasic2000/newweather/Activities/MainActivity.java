@@ -25,7 +25,6 @@ import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private NavController navController;
     private DrawerLayout drawer;
     private CityPreference cityPreference;
@@ -51,42 +50,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
-
-
-        // Менеджер датчиков
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        // Датчик температыры (у меня нет)
-        sensorTemperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        // Регистрируем слушатель датчика температуры
-        sensorManager.registerListener(listenerTemperature, sensorTemperature,
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    // Слушатель датчика температуры
-    SensorEventListener listenerTemperature = new SensorEventListener() {
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            showTemperatureSensors(event);
-        }
-    };
-
-    // Вывод датчика температуры
-    private void showTemperatureSensors(SensorEvent event){
-        tv_temperature.setText(String.valueOf(event.values[0]));
     }
 
     @Override
     //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
     //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
-
         int bbb = navController.getCurrentDestination().getId();
         int aaa = navController.getGraph().getStartDestination();
-
         if(bbb == aaa)
             finish();
         else {
