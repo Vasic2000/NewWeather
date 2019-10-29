@@ -83,6 +83,9 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
 
     // Вывод датчика температуры
     public void showTemperatureSensors(SensorEvent event){
-        tv_temperature.setText(String.valueOf(event.values[0]));
+        StringBuilder strB = new StringBuilder();
+        strB.append(event.values[0]);
+        strB.append("°С");
+        tv_temperature.setText(strB);
     }
 }
