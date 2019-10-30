@@ -21,10 +21,10 @@
             app:destination="@id/setting" />
         <action
             android:id="@+id/action_weather_to_game_1"
-            app:destination="@id/temperature_sensor" />
+            app:destination="@id/game_1" />
         <action
             android:id="@+id/action_weather_to_game_3"
-            app:destination="@id/humidity_sensor" />
+            app:destination="@id/game_3" />
         <action
             android:id="@+id/action_weather_to_aboutDeveloper"
             app:destination="@id/aboutDeveloper" />
@@ -44,10 +44,10 @@
             app:destination="@id/setting" />
         <action
             android:id="@+id/action_forecast_to_game_1"
-            app:destination="@id/temperature_sensor" />
+            app:destination="@id/game_1" />
         <action
             android:id="@+id/action_forecast_to_game_3"
-            app:destination="@id/humidity_sensor" />
+            app:destination="@id/game_3" />
         <action
             android:id="@+id/action_forecast_to_aboutDeveloper"
             app:destination="@id/aboutDeveloper" />
@@ -61,10 +61,10 @@
         android:label="ChangeCity" >
         <action
             android:id="@+id/action_changeCity_to_game_1"
-            app:destination="@id/temperature_sensor" />
+            app:destination="@id/game_1" />
         <action
             android:id="@+id/action_changeCity_to_game_3"
-            app:destination="@id/humidity_sensor" />
+            app:destination="@id/game_3" />
         <action
             android:id="@+id/action_changeCity_to_aboutDeveloper"
             app:destination="@id/aboutDeveloper" />
@@ -78,10 +78,10 @@
         android:label="Setting" >
         <action
             android:id="@+id/action_setting_to_game_1"
-            app:destination="@id/temperature_sensor" />
+            app:destination="@id/game_1" />
         <action
             android:id="@+id/action_setting_to_game_3"
-            app:destination="@id/humidity_sensor" />
+            app:destination="@id/game_3" />
         <action
             android:id="@+id/action_setting_to_aboutDeveloper"
             app:destination="@id/aboutDeveloper" />
@@ -90,15 +90,15 @@
             app:destination="@id/feedbackForm" />
     </fragment>
     <fragment
-        android:id="@+id/temperature_sensor"
-        android:name="ru.vasic2000.newweather.Fragments.Temperature_Sensor"
-        android:label="fragment_temp_sensor"
-        tools:layout="@layout/fragment_humid_sensor" />
+        android:id="@+id/game_1"
+        android:name="ru.vasic2000.newweather.Fragments.Game_1"
+        android:label="fragment_game_3"
+        tools:layout="@layout/fragment_game_3" />
     <fragment
-        android:id="@+id/humidity_sensor"
-        android:name="ru.vasic2000.newweather.Fragments.Humidity_Sensor"
-        android:label="fragment_humid_sensor"
-        tools:layout="@layout/fragment_humid_sensor" />
+        android:id="@+id/game_3"
+        android:name="ru.vasic2000.newweather.Fragments.Game_3"
+        android:label="fragment_game_3"
+        tools:layout="@layout/fragment_game_3" />
     <fragment
         android:id="@+id/aboutDeveloper"
         android:name="ru.vasic2000.newweather.Fragments.AboutDeveloper"

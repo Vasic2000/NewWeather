@@ -23,14 +23,14 @@
             android:title="FeedBack" />
     </group>
 
-    <item android:title="@string/sensors2">
+    <item android:title="Bonus">
         <menu>
             <item
-                android:id="@+id/nav_temp_sensor"
-                android:title="@string/temperature2" />
+                android:id="@+id/nav_game1"
+                android:title="Game 1" />
             <item
-                android:id="@+id/nav_humid_sensor"
-                android:title="@string/humidity2" />
+                android:id="@+id/nav_game3"
+                android:title="Game 3" />
         </menu>
     </item>
 

@@ -20,16 +20,16 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_additions"
-        android:title="@string/sensors"
+        android:title="@string/bonus"
         app:showAsAction="never">
         <menu>
             <item
-                android:id="@+id/action_t_sensor"
-                android:title="@string/title_temperature"
+                android:id="@+id/action_game1"
+                android:title="@string/maze"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/action_h_sensor"
-                android:title="@string/title_humidity"
+                android:id="@+id/action_game3"
+                android:title="@string/rgb_game"
                 app:showAsAction="never" />
         </menu>
     </item>

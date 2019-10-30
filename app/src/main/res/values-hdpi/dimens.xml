@@ -11,7 +11,4 @@
     <dimen name="MargineTopFirst">5dp</dimen>
     <dimen name="MargineLeftFirst">5dp</dimen>
     <dimen name="indicatorSize">250dp</dimen>
-    <dimen name="Humid_Size">25sp</dimen>
-    <dimen name="humid_value_font_size">40sp</dimen>
-    <dimen name="temper_value_font_size">40sp</dimen>
 </resources>

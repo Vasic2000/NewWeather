@@ -1,9 +1,5 @@
 package ru.vasic2000.newweather.Activities;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,13 +21,10 @@ import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
     private NavController navController;
     private DrawerLayout drawer;
     private CityPreference cityPreference;
-
-
-    public SensorManager sensorManager;
-    public Sensor sensorTemperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
     //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
+
         int bbb = navController.getCurrentDestination().getId();
         int aaa = navController.getGraph().getStartDestination();
+
         if(bbb == aaa)
             finish();
         else {
@@ -103,13 +98,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        if (id == R.id.action_t_sensor) {
-            navController.navigate(R.id.temperature_sensor);
+        if (id == R.id.action_game1) {
+            navController.navigate(R.id.game_1);
             return true;
         }
 
-        if (id == R.id.action_h_sensor) {
-            navController.navigate(R.id.humidity_sensor);
+        if (id == R.id.action_game3) {
+            navController.navigate(R.id.game_3);
             return true;
         }
 
@@ -136,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.aboutDeveloper);
         } else if (id == R.id.nav_feedback) {
             navController.navigate(R.id.feedbackForm);
-        } else if (id == R.id.nav_temp_sensor) {
-            navController.navigate(R.id.temperature_sensor);
-        } else if (id == R.id.nav_humid_sensor) {
-            navController.navigate(R.id.humidity_sensor);
+        } else if (id == R.id.nav_game1) {
+            navController.navigate(R.id.game_1);
+        } else if (id == R.id.nav_game3) {
+            navController.navigate(R.id.game_3);
         }
         return true;
     }

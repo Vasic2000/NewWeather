@@ -16,7 +16,4 @@
     <dimen name="margineLeft">16dp</dimen>
     <dimen name="margineEnd">16dp</dimen>
     <dimen name="margineRight">16dp</dimen>
-    <dimen name="Humid_Size">25sp</dimen>
-    <dimen name="humid_value_font_size">40sp</dimen>
-    <dimen name="temper_value_font_size">40sp</dimen>
 </resources>
