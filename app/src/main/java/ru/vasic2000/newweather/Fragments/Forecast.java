@@ -2,16 +2,15 @@ package ru.vasic2000.newweather.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,8 +19,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
 import static ru.vasic2000.newweather.Network.NetworkUtils.generateURLforecast;
@@ -52,11 +51,6 @@ public class Forecast extends Fragment {
     private TextView tv_IconDay3;
     private TextView tv_temperatureNight3;
     private TextView tv_date3;
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,8 +95,8 @@ public class Forecast extends Fragment {
         tv_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity ma = (MainActivity) getActivity();
-                ma.fragmentBack();
+                MainActivity activity = (MainActivity) getActivity();
+                activity.fragmentBack();
             }
         });
     }
@@ -165,10 +159,6 @@ public class Forecast extends Fragment {
     public void updateForecastData(String city, String language, String secretKey) {
         URL generatedURL = generateURLforecast(city, language, secretKey);
         new MakeForecast().execute(generatedURL);
-    }
-
-    public void changeCity(String city, String key) {
-        updateForecastData(city, Locale.getDefault().getLanguage(), key);
     }
 
     class MakeForecast extends AsyncTask<URL, Void, String> {

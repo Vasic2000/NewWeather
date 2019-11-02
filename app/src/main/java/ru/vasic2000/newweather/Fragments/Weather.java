@@ -2,10 +2,6 @@ package ru.vasic2000.newweather.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +10,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
 import static ru.vasic2000.newweather.Network.NetworkUtils.generateURL;
 import static ru.vasic2000.newweather.Network.NetworkUtils.getJSONData;
 import static ru.vasic2000.newweather.Network.NetworkUtils.getResponseFromURL;
-
 
 public class Weather extends Fragment {
     private static final String LOG_TAG = "WeatherFragment";

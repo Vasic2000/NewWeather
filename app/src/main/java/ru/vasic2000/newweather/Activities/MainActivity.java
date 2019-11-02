@@ -1,22 +1,16 @@
 package ru.vasic2000.newweather.Activities;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -28,10 +22,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavController navController;
     private DrawerLayout drawer;
     private CityPreference cityPreference;
-
-
-    public SensorManager sensorManager;
-    public Sensor sensorTemperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

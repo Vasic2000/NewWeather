@@ -12,8 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ru.vasic2000.newweather.CityPreference;
-
 public class NetworkUtils {
 
     private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/";
@@ -22,7 +20,6 @@ public class NetworkUtils {
     private static final String PARAM = "q";
     private static final String LANG = "lang";
     private static final String KEY = "APPID";
-//    private static final String MY_KEY = "07795d846f9c55c418379de9d14962e7";
     private static final String NEW_LINE = "\n";
 
     public static String getResponseFromURL(URL generatedURL) {
@@ -89,5 +86,4 @@ public class NetworkUtils {
             return null;
         }
     }
-
 }

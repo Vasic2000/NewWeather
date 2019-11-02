@@ -1,14 +1,13 @@
 package ru.vasic2000.newweather.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import ru.vasic2000.newweather.Activities.MainActivity;
 import ru.vasic2000.newweather.R;
@@ -32,8 +31,8 @@ public class FeedbackForm extends Fragment {
         tv_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity ma = (MainActivity) getActivity();
-                ma.fragmentBack();
+                MainActivity activity = (MainActivity) getActivity();
+                activity.fragmentBack();
             }
         });
     }

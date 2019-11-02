@@ -81,7 +81,7 @@ public class Humidity_Sensor extends Fragment implements SensorEventListener {
     }
 
     // Вывод датчика влажности
-    public void showTemperatureSensors(SensorEvent event){
+    private void showTemperatureSensors(SensorEvent event){
         StringBuilder strB = new StringBuilder();
         strB.append(event.values[0]);
         strB.append("%");
