@@ -64,6 +64,7 @@ public class Forecast extends Fragment {
 
         View forecast = getView();
 
+        assert forecast != null;
         tv_city = forecast.findViewById(R.id.city_forecast);
         tv_goBack = forecast.findViewById(R.id.tv_return);
         loadIndicator = forecast.findViewById(R.id.pb_loading_indicator);
@@ -89,6 +90,7 @@ public class Forecast extends Fragment {
         tv_date3 = forecast.findViewById(R.id.date_3);
 
         final MainActivity weatherActivity = (MainActivity) getActivity();
+        assert weatherActivity != null;
         CityPreference ct = new CityPreference(weatherActivity);
         updateForecastData(ct.getCity(), Locale.getDefault().getLanguage(), ct.getSecretKey());
 
@@ -96,6 +98,7 @@ public class Forecast extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity activity = (MainActivity) getActivity();
+                assert activity != null;
                 activity.fragmentBack();
             }
         });

@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
     //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
-        int bbb = navController.getCurrentDestination().getId();
-        int aaa = navController.getGraph().getStartDestination();
-        if(bbb == aaa)
+        int currentFragmentID = navController.getCurrentDestination().getId();
+        int startDestination = navController.getGraph().getStartDestination();
+        if(currentFragmentID == startDestination)
             finish();
         else {
             fragmentBack();

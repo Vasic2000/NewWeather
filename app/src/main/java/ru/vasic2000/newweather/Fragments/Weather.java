@@ -50,6 +50,7 @@ public class Weather extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         View rootView = getView();
+        assert rootView != null;
         cityTextView = rootView.findViewById(R.id.city_field);
         detailsTextView = rootView.findViewById(R.id.details_field);
         currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
@@ -57,14 +58,15 @@ public class Weather extends Fragment {
         loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
         forecast = rootView.findViewById(R.id.tv_forecast);
 
-        final MainActivity ma = (MainActivity) getActivity();
-        CityPreference ct = new CityPreference(ma);
-        updateWeatherData(ct.getCity(), Locale.getDefault().getLanguage(), ct.getSecretKey());
+        final MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        CityPreference cityPreference = new CityPreference(activity);
+        updateWeatherData(cityPreference.getCity(), Locale.getDefault().getLanguage(), cityPreference.getSecretKey());
 
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ma.changeFragment(R.id.forecast);
+                activity.changeFragment(R.id.forecast);
             }
         });
     }
@@ -85,13 +87,26 @@ public class Weather extends Fragment {
             String st2 = main.getString("humidity");
             String st3 = main.getString("pressure");
 
+            StringBuilder humidityValue = new StringBuilder();
+
             if(Locale.getDefault().getLanguage().equals("ru")) {
-                detailsTextView.setText(st1 + "\n" +
-                        "Влажность: " + st2 + "%\n" + st3 + "кПа");
+                humidityValue.append(st1)
+                        .append("\n")
+                        .append("Влажность: ")
+                        .append(st2)
+                        .append("%\n")
+                        .append(st3)
+                        .append(" кПа");
             } else  {
-                detailsTextView.setText(st1 + "\n" +
-                        "Humidity: " + st2 + "%\n" + st3 + "hpa");
+                humidityValue.append(st1)
+                        .append("\n")
+                        .append("Humidity: ")
+                        .append(st2)
+                        .append("%\n")
+                        .append(st3)
+                        .append(" hpa");
             }
+            detailsTextView.setText(humidityValue);
 
             Double temp = main.getDouble("temp") - 273.15;
 
