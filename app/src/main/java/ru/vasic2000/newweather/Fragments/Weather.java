@@ -147,10 +147,6 @@ public class Weather extends Fragment {
         weatherIcon.setText(icon);
     }
 
-    public void changeCity(String city, String key) {
-        updateWeatherData(city, Locale.getDefault().getLanguage(), key);
-    }
-
     class actualWeather extends AsyncTask<URL, Void, String> {
         @Override
         protected void onPreExecute() {
