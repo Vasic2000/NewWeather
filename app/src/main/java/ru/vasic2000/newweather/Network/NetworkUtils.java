@@ -1,16 +1,17 @@
 package ru.vasic2000.newweather.Network;
+
 import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NetworkUtils {
 
@@ -23,25 +24,17 @@ public class NetworkUtils {
     private static final String NEW_LINE = "\n";
 
     public static String getResponseFromURL(URL generatedURL) {
-        StringBuilder rawData = new StringBuilder(1024);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(generatedURL).build();
+        String rawData = "";
         try {
-            HttpURLConnection connection = (HttpURLConnection) generatedURL.openConnection();
-            InputStream in = connection.getInputStream();
-            InputStreamReader is = new InputStreamReader(in);
-            BufferedReader br = new BufferedReader(is);
-            String tempVariable;
-            while ((tempVariable = br.readLine()) != null) {
-                rawData.append(tempVariable + NEW_LINE);
-            }
-            br.close();
-            is.close();
-            in.close();
-            connection.disconnect();
+            Response response = client.newCall(request).execute();
+            rawData = response.body().string();
         } catch (IOException e) {
-            System.out.println("ИО!!!");
+            e.printStackTrace();
         }
 
-        return rawData.toString();
+        return rawData;
     }
 
     public static URL generateURL(String city, String language, String Key) {
