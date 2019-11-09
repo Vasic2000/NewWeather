@@ -11,9 +11,6 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".Network.GetResponseService"
-            android:exported="false"></service>
 
         <activity
             android:name=".Activities.MainActivity"
