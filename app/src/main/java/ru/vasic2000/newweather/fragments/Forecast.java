@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Fragments;
+package ru.vasic2000.newweather.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,13 +19,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
-import static ru.vasic2000.newweather.Network.NetworkUtils.generateURLforecast;
-import static ru.vasic2000.newweather.Network.NetworkUtils.getJSONData;
-import static ru.vasic2000.newweather.Network.NetworkUtils.getResponseFromURL;
+import static ru.vasic2000.newweather.network.NetworkUtils.generateURLforecast;
+import static ru.vasic2000.newweather.network.NetworkUtils.getJSONData;
+import static ru.vasic2000.newweather.network.NetworkUtils.getResponseFromURL;
 
 public class Forecast extends Fragment {
     private static final String LOG_TAG = "ForecastFragment";

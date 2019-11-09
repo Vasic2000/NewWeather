@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Network;
+package ru.vasic2000.newweather.network;
 import android.net.Uri;
 
 import org.json.JSONException;
@@ -44,22 +44,22 @@ public class NetworkUtils {
         return rawData.toString();
     }
 
-    public static URL generateURL(String city, String language, String Key) {
-        URL url = null;
-        Uri builtUri = Uri.parse(OPEN_WEATHER_MAP_API + OPEN_WEATHER_METHOD)
-                .buildUpon()
-                .appendQueryParameter(PARAM, city)
-                .appendQueryParameter(LANG, language.toUpperCase())
-                .appendQueryParameter(KEY, Key)
-                .build();
-        try {
-            String appi = builtUri.toString();
-            url = new URL(appi);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//    public static URL generateURL(String city, String language, String Key) {
+//        URL url = null;
+//        Uri builtUri = Uri.parse(OPEN_WEATHER_MAP_API + OPEN_WEATHER_METHOD)
+//                .buildUpon()
+//                .appendQueryParameter(PARAM, city)
+//                .appendQueryParameter(LANG, language.toUpperCase())
+//                .appendQueryParameter(KEY, Key)
+//                .build();
+//        try {
+//            String appi = builtUri.toString();
+//            url = new URL(appi);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 
     public static URL generateURLforecast(String city, String language, String Key) {
         URL url = null;

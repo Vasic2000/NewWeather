@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.activities;
 
 import android.os.Bundle;
 import android.view.Menu;

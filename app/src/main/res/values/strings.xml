@@ -53,5 +53,7 @@
     <string name="relative_humidity">Relative humidity</string>
     <string name="temperature">Temperature</string>
     <string name="no_sensor">No sensor!</string>
+    <string name="netork_failure">Internet error</string>
+    <string name="wrong_answer">Wrong answer</string>
 
 </resources>

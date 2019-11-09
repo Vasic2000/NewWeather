@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context=".Fragments.Weather">
+    tools:context=".fragments.Weather">
 
     <!--        Харкод android.text = оставил для тестов, чтобы видеть при отладке потом удалю-->
 

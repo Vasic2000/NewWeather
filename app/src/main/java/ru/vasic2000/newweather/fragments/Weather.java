@@ -1,8 +1,6 @@
-package ru.vasic2000.newweather.Fragments;
+package ru.vasic2000.newweather.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +11,19 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.vasic2000.newweather.Activities.MainActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
-
-import static ru.vasic2000.newweather.Network.NetworkUtils.generateURL;
-import static ru.vasic2000.newweather.Network.NetworkUtils.getJSONData;
-import static ru.vasic2000.newweather.Network.NetworkUtils.getResponseFromURL;
+import ru.vasic2000.newweather.activities.MainActivity;
+import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
+import ru.vasic2000.newweather.rest.entities.WeatherRequestRestModel;
 
 public class Weather extends Fragment {
-    private static final String LOG_TAG = "WeatherFragment";
 
     private TextView cityTextView;
     private TextView detailsTextView;
@@ -36,7 +31,6 @@ public class Weather extends Fragment {
     private TextView weatherIcon;
     private ProgressBar loadIndicator;
     private TextView forecast;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +55,7 @@ public class Weather extends Fragment {
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         CityPreference cityPreference = new CityPreference(activity);
-        updateWeatherData(cityPreference.getCity(), Locale.getDefault().getLanguage(), cityPreference.getSecretKey());
+        updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
 
         forecast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,57 +65,55 @@ public class Weather extends Fragment {
         });
     }
 
-    public void updateWeatherData(String city, String language, String SecretKey) {
-        URL generatedURL = generateURL(city, language, SecretKey);
-        new actualWeather().execute(generatedURL);
+    private void updateWeatherData(String city, String SecretKey) {
+        loadIndicator.setVisibility(View.VISIBLE);
+        OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey,
+                "metric").enqueue(new Callback<WeatherRequestRestModel>() {
+            @Override
+            public void onResponse(Call<WeatherRequestRestModel> call,
+                                   Response<WeatherRequestRestModel> response) {
+                if(response.body() != null && response.isSuccessful()) {
+                    renderWeather(response.body());
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
+                Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    private void renderWeather(JSONObject json) {
-        try {
-            cityTextView.setText(json.getString("name").toUpperCase(Locale.US) + "," +
-                    json.getJSONObject("sys").getString("country"));
+    private void renderWeather(WeatherRequestRestModel model) {
 
-            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-            JSONObject main = json.getJSONObject("main");
-            String st1 = details.getString("description").toUpperCase(Locale.US);
-            String st2 = main.getString("humidity");
-            String st3 = main.getString("pressure");
+        loadIndicator.setVisibility(View.INVISIBLE);
+        cityTextView.setText(model.cityName.toUpperCase(Locale.US) + "," + model.sys.country);
 
-            StringBuilder humidityValue = new StringBuilder();
+        currentTemperatureTextView.setText(String.format("%.2f", model.main.temperature) + " °C");
 
-            if(Locale.getDefault().getLanguage().equals("ru")) {
-                humidityValue.append(st1)
-                        .append("\n")
-                        .append("Влажность: ")
-                        .append(st2)
-                        .append("%\n")
-                        .append(st3)
-                        .append(" кПа");
-            } else  {
-                humidityValue.append(st1)
-                        .append("\n")
-                        .append("Humidity: ")
-                        .append(st2)
-                        .append("%\n")
-                        .append(st3)
-                        .append(" hpa");
-            }
-            detailsTextView.setText(humidityValue);
-
-            Double temp = main.getDouble("temp") - 273.15;
-
-            currentTemperatureTextView.setText(String.format("%.2f", temp) + " °C");
-
-            int actualId = details.getInt("id");
-            long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
-            long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
-
-            setWeatherIcon(actualId, sunrise, sunset);
-
-        } catch (Exception e) {
-            Toast.makeText(getContext(), "Нет такого города!", Toast.LENGTH_LONG).show();
-            Log.d(LOG_TAG, "One or several data missing");
+        StringBuilder humidityValue = new StringBuilder();
+        if(Locale.getDefault().getLanguage().equals("ru")) {
+            humidityValue.append(model.weathers[0].description)
+                    .append("\n")
+                    .append("Влажность: ")
+                    .append(model.main.humidity)
+                    .append("%\n")
+                    .append(model.main.pressure)
+                    .append(" кПа");
+        } else  {
+            humidityValue.append(model.weathers[0].description)
+                    .append("\n")
+                    .append("Humidity: ")
+                    .append(model.main.humidity)
+                    .append("%\n")
+                    .append(model.main.pressure)
+                    .append(" hpa");
         }
+        detailsTextView.setText(humidityValue);
+
+        setWeatherIcon(model.weathers[0].index, model.sys.sunrise, model.sys.sunset);
     }
 
     private void setWeatherIcon(int actualId, long sunrise, long sunset) {
@@ -160,24 +152,5 @@ public class Weather extends Fragment {
             }
         }
         weatherIcon.setText(icon);
-    }
-
-    class actualWeather extends AsyncTask<URL, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            loadIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(URL... urls) {
-            return getResponseFromURL(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            JSONObject answer = getJSONData(response);
-            renderWeather(answer);
-            loadIndicator.setVisibility(View.INVISIBLE);
-        }
     }
 }
