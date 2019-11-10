@@ -1,34 +1,28 @@
 package ru.vasic2000.newweather.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import ru.vasic2000.newweather.activities.MainActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
-
-import static ru.vasic2000.newweather.network.NetworkUtils.generateURLforecast;
-import static ru.vasic2000.newweather.network.NetworkUtils.getJSONData;
-import static ru.vasic2000.newweather.network.NetworkUtils.getResponseFromURL;
+import ru.vasic2000.newweather.activities.MainActivity;
+import ru.vasic2000.newweather.rest.entities.Forecast.ForecastRequestRestModel;
+import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 
 public class Forecast extends Fragment {
-    private static final String LOG_TAG = "ForecastFragment";
 
     private TextView tv_goBack;
     private ProgressBar loadIndicator;
@@ -92,7 +86,7 @@ public class Forecast extends Fragment {
         final MainActivity weatherActivity = (MainActivity) getActivity();
         assert weatherActivity != null;
         CityPreference ct = new CityPreference(weatherActivity);
-        updateForecastData(ct.getCity(), Locale.getDefault().getLanguage(), ct.getSecretKey());
+        updateForecastData(ct.getCity(), ct.getSecretKey());
 
         tv_goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,84 +98,80 @@ public class Forecast extends Fragment {
         });
     }
 
-    private void renderForecast(JSONObject json) {
-        ArrayList<JSONObject> lists = new ArrayList<>();
+    private void renderForecast(ForecastRequestRestModel model) {
+        ArrayList<Float> temperatureD = new ArrayList<>();
+        ArrayList<Float> temperatureN = new ArrayList<>();
         ArrayList<Integer> iconsIdD = new ArrayList<>();
         ArrayList<Integer> iconsIdN = new ArrayList<>();
-        ArrayList<Double> temperatureD = new ArrayList<>();
-        ArrayList<Double> temperatureN = new ArrayList<>();
         ArrayList<String> date = new ArrayList<>();
 
-        try {
-            tv_city.setText(json.getJSONObject("city").getString("name").toUpperCase(Locale.US) + ","
-                    + json.getJSONObject("city").getString("country"));
+        //Вспомогательный
+        String tempTime;
 
-            JSONArray list = json.getJSONArray("list");
-            String ssstr;
+        loadIndicator.setVisibility(View.INVISIBLE);
 
-//            Ищу данные для 3 часов дня и 3 часов ночи
-            for(int i = 0; i < list.length(); i++) {
-                lists.add(list.getJSONObject(i));
-                ssstr = list.getJSONObject(i).getString("dt_txt");
-                ssstr = ssstr.substring(ssstr.length() - 8, ssstr.length() - 6);
-                if(ssstr.equals("15") && (iconsIdN.size() != 0)) {
-                    temperatureD.add(list.getJSONObject(i).getJSONObject("main").getDouble("temp_max") - 273.15);
-                    iconsIdD.add(list.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getInt("id"));
-                }
-                if(ssstr.equals("03")) {
-                    temperatureN.add(list.getJSONObject(i).getJSONObject("main").getDouble("temp_min") - 273.15);
-                    iconsIdN.add(list.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getInt("id"));
-                    date.add(list.getJSONObject(i).getString("dt_txt").substring(0, 10));
+        tv_city.setText(model.cityRestModel.cityName);
+
+//      Ищу данные для 3 часов дня и 3 часов ночи
+        for(int i = 0; i < model.forecasts.length; i++) {
+            tempTime = model.forecasts[i].time;
+            tempTime = tempTime.substring(tempTime.length() - 8, tempTime.length() - 6);
+
+            if(tempTime.equals("15") && (iconsIdN.size() != 0)) {
+                temperatureD.add(model.forecasts[i].main.temperature);
+                iconsIdD.add(model.forecasts[i].weather[0].index);
+            }
+
+            if(tempTime.equals("03")) {
+                temperatureN.add(model.forecasts[i].main.temperature);
+                iconsIdN.add(model.forecasts[i].weather[0].index);
+                date.add(model.forecasts[i].time);
+            }
+        }
+
+        tv_temperatureNight1.setText(String.format("%.2f", temperatureN.get(0)) + "°C");
+        tv_temperatureNight2.setText(String.format("%.2f", temperatureN.get(1)) + "°C");
+        tv_temperatureNight3.setText(String.format("%.2f", temperatureN.get(2)) + "°C");
+
+        tv_temperatureDay1.setText(String.format("%.2f", temperatureD.get(0)) + "°C");
+        tv_temperatureDay2.setText(String.format("%.2f", temperatureD.get(1)) + "°C");
+        tv_temperatureDay3.setText(String.format("%.2f", temperatureD.get(2)) + "°C");
+
+        tv_date1.setText(date.get(0));
+        tv_date2.setText(date.get(1));
+        tv_date3.setText(date.get(2));
+
+        setWeatherIcon(iconsIdN.get(0), tv_IconNight1, false);
+        setWeatherIcon(iconsIdN.get(1), tv_IconNight2, false);
+        setWeatherIcon(iconsIdN.get(2), tv_IconNight3, false);
+        setWeatherIcon(iconsIdD.get(0), tv_IconDay1, true);
+        setWeatherIcon(iconsIdD.get(1), tv_IconDay2, true);
+        setWeatherIcon(iconsIdD.get(2), tv_IconDay3, true);
+    }
+
+
+    public void updateForecastData(String city, String secretKey) {
+        loadIndicator.setVisibility(View.VISIBLE);
+        OpenWeatherRepo.getSingleton().getAPI().loadForecast(city, secretKey,
+                "metric").enqueue(new Callback<ForecastRequestRestModel>() {
+            @Override
+            public void onResponse(Call<ForecastRequestRestModel> call,
+                                   Response<ForecastRequestRestModel> response) {
+                if(response.body() != null && response.isSuccessful()) {
+                    renderForecast(response.body());
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
                 }
             }
 
-            tv_temperatureNight1.setText(String.format("%.2f", temperatureN.get(0)) + "°C");
-            tv_temperatureNight2.setText(String.format("%.2f", temperatureN.get(1)) + "°C");
-            tv_temperatureNight3.setText(String.format("%.2f", temperatureN.get(2)) + "°C");
-
-            tv_temperatureDay1.setText(String.format("%.2f", temperatureD.get(0)) + "°C");
-            tv_temperatureDay2.setText(String.format("%.2f", temperatureD.get(1)) + "°C");
-            tv_temperatureDay3.setText(String.format("%.2f", temperatureD.get(2)) + "°C");
-
-            tv_date1.setText(date.get(0));
-            tv_date2.setText(date.get(1));
-            tv_date3.setText(date.get(2));
-
-            setWeatherIcon(iconsIdN.get(0), tv_IconNight1, false);
-            setWeatherIcon(iconsIdN.get(1), tv_IconNight2, false);
-            setWeatherIcon(iconsIdN.get(2), tv_IconNight3, false);
-            setWeatherIcon(iconsIdD.get(0), tv_IconDay1, true);
-            setWeatherIcon(iconsIdD.get(1), tv_IconDay2, true);
-            setWeatherIcon(iconsIdD.get(2), tv_IconDay3, true);
-
-        } catch (Exception e) {
-            Log.d(LOG_TAG, "One or several data missing");
-        }
+            @Override
+            public void onFailure(Call<ForecastRequestRestModel> call, Throwable t) {
+                Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+            }
+        });
+        loadIndicator.setVisibility(View.INVISIBLE);
     }
 
-    public void updateForecastData(String city, String language, String secretKey) {
-        URL generatedURL = generateURLforecast(city, language, secretKey);
-        new MakeForecast().execute(generatedURL);
-    }
-
-    class MakeForecast extends AsyncTask<URL, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            loadIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(URL... urls) {
-            return getResponseFromURL(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            JSONObject answer = getJSONData(response);
-            renderForecast(answer);
-            loadIndicator.setVisibility(View.INVISIBLE);
-        }
-    }
 
     private void setWeatherIcon(int actualId, TextView weatherIcon, boolean isDayTime) {
         int id = actualId / 100;

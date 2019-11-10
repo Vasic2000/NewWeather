@@ -21,7 +21,7 @@ import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
-import ru.vasic2000.newweather.rest.entities.WeatherRequestRestModel;
+import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
 public class Weather extends Fragment {
 

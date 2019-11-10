@@ -1,11 +1,9 @@
-package ru.vasic2000.newweather.rest.entities;
+package ru.vasic2000.newweather.rest.entities.Weather;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MainRestModel {
+public class WeatherMainRestModel {
     @SerializedName("temp") public float temperature;
     @SerializedName("pressure") public float pressure;
     @SerializedName("humidity") public float humidity;
-    @SerializedName("temp_min") public float t_min;
-    @SerializedName("temp_max") public float t_max;
 }
