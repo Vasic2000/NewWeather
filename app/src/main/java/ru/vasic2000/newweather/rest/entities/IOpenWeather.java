@@ -10,6 +10,7 @@ public interface IOpenWeather {
     @GET("data/2.5/weather")
     Call<WeatherRequestRestModel> loadWeather(@Query("q") String city,
                                               @Query("appid") String keyApi,
+                                              @Query("lang") String lang,
                                               @Query("units") String units);
     @GET("data/2.5/forecast")
     Call<ForecastRequestRestModel> loadForecast(@Query("q") String city,

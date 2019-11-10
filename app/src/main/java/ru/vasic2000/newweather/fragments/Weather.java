@@ -67,23 +67,45 @@ public class Weather extends Fragment {
 
     private void updateWeatherData(String city, String SecretKey) {
         loadIndicator.setVisibility(View.VISIBLE);
-        OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey,
-                "metric").enqueue(new Callback<WeatherRequestRestModel>() {
-            @Override
-            public void onResponse(Call<WeatherRequestRestModel> call,
-                                   Response<WeatherRequestRestModel> response) {
-                if(response.body() != null && response.isSuccessful()) {
-                    renderWeather(response.body());
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
-                Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
-            }
-        });
+
+        if(Locale.getDefault().getLanguage().equals("ru")) {
+            OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
+                    "metric").enqueue(new Callback<WeatherRequestRestModel>() {
+                @Override
+                public void onResponse(Call<WeatherRequestRestModel> call,
+                                       Response<WeatherRequestRestModel> response) {
+                    if (response.body() != null && response.isSuccessful()) {
+                        renderWeather(response.body());
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
+                    Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "EN",
+                    "metric").enqueue(new Callback<WeatherRequestRestModel>() {
+                @Override
+                public void onResponse(Call<WeatherRequestRestModel> call,
+                                       Response<WeatherRequestRestModel> response) {
+                    if (response.body() != null && response.isSuccessful()) {
+                        renderWeather(response.body());
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
+                    Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     private void renderWeather(WeatherRequestRestModel model) {

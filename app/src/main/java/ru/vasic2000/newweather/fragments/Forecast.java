@@ -107,6 +107,7 @@ public class Forecast extends Fragment {
 
         //Вспомогательный
         String tempTime;
+        String tempDate;
 
         loadIndicator.setVisibility(View.INVISIBLE);
 
@@ -125,7 +126,9 @@ public class Forecast extends Fragment {
             if(tempTime.equals("03")) {
                 temperatureN.add(model.forecasts[i].main.temperature);
                 iconsIdN.add(model.forecasts[i].weather[0].index);
-                date.add(model.forecasts[i].time);
+                tempDate = model.forecasts[i].time;
+                tempDate = tempDate.substring(0, 10);
+                date.add(tempDate);
             }
         }
 
