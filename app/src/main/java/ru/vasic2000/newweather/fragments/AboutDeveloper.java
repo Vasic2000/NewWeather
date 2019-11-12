@@ -16,8 +16,8 @@ import ru.vasic2000.newweather.R;
 import ru.vasic2000.newweather.activities.MainActivity;
 
 public class AboutDeveloper extends Fragment {
-    private TextView tv_goBack;
-    private ImageView dev_Photo;
+    private TextView tvGoBack;
+    private ImageView devPhoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,10 +30,10 @@ public class AboutDeveloper extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View about = getView();
-        tv_goBack = about.findViewById(R.id.tv_return4);
+        tvGoBack = about.findViewById(R.id.tv_return4);
 
 
-        tv_goBack.setOnClickListener(new View.OnClickListener() {
+        tvGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
@@ -41,12 +41,12 @@ public class AboutDeveloper extends Fragment {
             }
         });
 
-        dev_Photo = about.findViewById(R.id.iv_dev_photo);
+        devPhoto = about.findViewById(R.id.iv_dev_photo);
         Picasso.with(getContext())
                 .load("https://avatars1.githubusercontent.com/u/39723055?s=400&u=22e7c65b0cf73e9ce5b3ef84b770ff1439e20afb&v=4")
                 .fit()
                 .centerCrop()
-                .into(dev_Photo);
+                .into(devPhoto);
 
     }
 

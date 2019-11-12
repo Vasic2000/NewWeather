@@ -21,8 +21,8 @@ import ru.vasic2000.newweather.R;
 
 
 public class Temperature_Sensor extends Fragment implements SensorEventListener {
-    private TextView tv_goBack1;
-    private TextView tv_temperature;
+    private TextView tvGoBack1;
+    private TextView tvTemperature;
 
     private SensorManager mSensorManager;
     private Sensor sensorTemperature;
@@ -38,10 +38,10 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
         super.onActivityCreated(savedInstanceState);
         View tSensor = getView();
 
-        tv_goBack1 = tSensor.findViewById(R.id.tv_return1);
-        tv_temperature = tSensor.findViewById(R.id.tv_t_value);
+        tvGoBack1 = tSensor.findViewById(R.id.tv_return1);
+        tvTemperature = tSensor.findViewById(R.id.tv_t_value);
 
-        tv_goBack1.setOnClickListener(new View.OnClickListener() {
+        tvGoBack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
@@ -86,6 +86,6 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
         StringBuilder strB = new StringBuilder();
         strB.append(event.values[0]);
         strB.append("°С");
-        tv_temperature.setText(strB);
+        tvTemperature.setText(strB);
     }
 }

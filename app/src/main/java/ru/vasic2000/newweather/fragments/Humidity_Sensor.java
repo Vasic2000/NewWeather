@@ -20,8 +20,8 @@ import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 public class Humidity_Sensor extends Fragment implements SensorEventListener {
-    private TextView tv_goBack3;
-    private TextView tv_humidity;
+    private TextView tvGoBack3;
+    private TextView tvHumidity;
 
     private SensorManager mSensorManager;
     private Sensor sensorHumidity;
@@ -37,10 +37,10 @@ public class Humidity_Sensor extends Fragment implements SensorEventListener {
         super.onActivityCreated(savedInstanceState);
         View tHumid = getView();
 
-        tv_goBack3 = tHumid.findViewById(R.id.tv_return3);
-        tv_humidity = tHumid.findViewById(R.id.tv_h_value);
+        tvGoBack3 = tHumid.findViewById(R.id.tv_return3);
+        tvHumidity = tHumid.findViewById(R.id.tv_h_value);
 
-        tv_goBack3.setOnClickListener(new View.OnClickListener() {
+        tvGoBack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
@@ -85,6 +85,6 @@ public class Humidity_Sensor extends Fragment implements SensorEventListener {
         StringBuilder strB = new StringBuilder();
         strB.append(event.values[0]);
         strB.append("%");
-        tv_humidity.setText(strB);
+        tvHumidity.setText(strB);
     }
 }

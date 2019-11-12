@@ -13,7 +13,7 @@ import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 public class FeedbackForm extends Fragment {
-    private TextView tv_goBack;
+    private TextView tvGoBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,9 +26,9 @@ public class FeedbackForm extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View about = getView();
-        tv_goBack = about.findViewById(R.id.tv_return5);
+        tvGoBack = about.findViewById(R.id.tv_return5);
 
-        tv_goBack.setOnClickListener(new View.OnClickListener() {
+        tvGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity activity = (MainActivity) getActivity();

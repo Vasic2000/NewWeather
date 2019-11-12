@@ -24,27 +24,27 @@ import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 
 public class Forecast extends Fragment {
 
-    private TextView tv_goBack;
+    private TextView tvGoBack;
     private ProgressBar loadIndicator;
-    private TextView tv_city;
+    private TextView tvCity;
 
-    private TextView tv_IconNight1;
-    private TextView tv_temperatureDay1;
-    private TextView tv_IconDay1;
-    private TextView tv_temperatureNight1;
-    private TextView tv_date1;
+    private TextView tvIconNight1;
+    private TextView tvTemperatureDay1;
+    private TextView tvIconDay1;
+    private TextView tvTemperatureNight1;
+    private TextView tvDate1;
 
-    private TextView tv_IconNight2;
-    private TextView tv_temperatureDay2;
-    private TextView tv_IconDay2;
-    private TextView tv_temperatureNight2;
-    private TextView tv_date2;
+    private TextView tvIconNight2;
+    private TextView tvTemperatureDay2;
+    private TextView tvIconDay2;
+    private TextView tvTemperatureNight2;
+    private TextView tvDate2;
 
-    private TextView tv_IconNight3;
-    private TextView tv_temperatureDay3;
-    private TextView tv_IconDay3;
-    private TextView tv_temperatureNight3;
-    private TextView tv_date3;
+    private TextView tvIconNight3;
+    private TextView tvTemperatureDay3;
+    private TextView tvIconDay3;
+    private TextView tvTemperatureNight3;
+    private TextView tvDate3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,36 +59,36 @@ public class Forecast extends Fragment {
         View forecast = getView();
 
         assert forecast != null;
-        tv_city = forecast.findViewById(R.id.city_forecast);
-        tv_goBack = forecast.findViewById(R.id.tv_return);
+        tvCity = forecast.findViewById(R.id.city_forecast);
+        tvGoBack = forecast.findViewById(R.id.tv_return);
         loadIndicator = forecast.findViewById(R.id.pb_loading_indicator);
 
-        tv_IconNight1 = forecast.findViewById(R.id.weather_icon_1night);
-        tv_IconNight2 = forecast.findViewById(R.id.weather_icon_2night);
-        tv_IconNight3 = forecast.findViewById(R.id.weather_icon_3night);
+        tvIconNight1 = forecast.findViewById(R.id.weather_icon_1night);
+        tvIconNight2 = forecast.findViewById(R.id.weather_icon_2night);
+        tvIconNight3 = forecast.findViewById(R.id.weather_icon_3night);
 
-        tv_IconDay1 = forecast.findViewById(R.id.weather_icon_1day);
-        tv_IconDay2 = forecast.findViewById(R.id.weather_icon_2day);
-        tv_IconDay3 = forecast.findViewById(R.id.weather_icon_3day);
+        tvIconDay1 = forecast.findViewById(R.id.weather_icon_1day);
+        tvIconDay2 = forecast.findViewById(R.id.weather_icon_2day);
+        tvIconDay3 = forecast.findViewById(R.id.weather_icon_3day);
 
-        tv_temperatureNight1 = forecast.findViewById(R.id.temperature_1night);
-        tv_temperatureNight2 = forecast.findViewById(R.id.temperature_2night);
-        tv_temperatureNight3 = forecast.findViewById(R.id.temperature_3night);
+        tvTemperatureNight1 = forecast.findViewById(R.id.temperature_1night);
+        tvTemperatureNight2 = forecast.findViewById(R.id.temperature_2night);
+        tvTemperatureNight3 = forecast.findViewById(R.id.temperature_3night);
 
-        tv_temperatureDay1 = forecast.findViewById(R.id.temperature_1day);
-        tv_temperatureDay2 = forecast.findViewById(R.id.temperature_2day);
-        tv_temperatureDay3 = forecast.findViewById(R.id.temperature_3day);
+        tvTemperatureDay1 = forecast.findViewById(R.id.temperature_1day);
+        tvTemperatureDay2 = forecast.findViewById(R.id.temperature_2day);
+        tvTemperatureDay3 = forecast.findViewById(R.id.temperature_3day);
 
-        tv_date1 = forecast.findViewById(R.id.date_1);
-        tv_date2 = forecast.findViewById(R.id.date_2);
-        tv_date3 = forecast.findViewById(R.id.date_3);
+        tvDate1 = forecast.findViewById(R.id.date_1);
+        tvDate2 = forecast.findViewById(R.id.date_2);
+        tvDate3 = forecast.findViewById(R.id.date_3);
 
         final MainActivity weatherActivity = (MainActivity) getActivity();
         assert weatherActivity != null;
         CityPreference ct = new CityPreference(weatherActivity);
         updateForecastData(ct.getCity(), ct.getSecretKey());
 
-        tv_goBack.setOnClickListener(new View.OnClickListener() {
+        tvGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity activity = (MainActivity) getActivity();
@@ -111,7 +111,7 @@ public class Forecast extends Fragment {
 
         loadIndicator.setVisibility(View.INVISIBLE);
 
-        tv_city.setText(model.cityRestModel.cityName);
+        tvCity.setText(model.cityRestModel.cityName);
 
 //      Ищу данные для 3 часов дня и 3 часов ночи
         for(int i = 0; i < model.forecasts.length; i++) {
@@ -132,24 +132,24 @@ public class Forecast extends Fragment {
             }
         }
 
-        tv_temperatureNight1.setText(String.format("%.2f", temperatureN.get(0)) + "°C");
-        tv_temperatureNight2.setText(String.format("%.2f", temperatureN.get(1)) + "°C");
-        tv_temperatureNight3.setText(String.format("%.2f", temperatureN.get(2)) + "°C");
+        tvTemperatureNight1.setText(String.format("%.2f", temperatureN.get(0)) + "°C");
+        tvTemperatureNight2.setText(String.format("%.2f", temperatureN.get(1)) + "°C");
+        tvTemperatureNight3.setText(String.format("%.2f", temperatureN.get(2)) + "°C");
 
-        tv_temperatureDay1.setText(String.format("%.2f", temperatureD.get(0)) + "°C");
-        tv_temperatureDay2.setText(String.format("%.2f", temperatureD.get(1)) + "°C");
-        tv_temperatureDay3.setText(String.format("%.2f", temperatureD.get(2)) + "°C");
+        tvTemperatureDay1.setText(String.format("%.2f", temperatureD.get(0)) + "°C");
+        tvTemperatureDay2.setText(String.format("%.2f", temperatureD.get(1)) + "°C");
+        tvTemperatureDay3.setText(String.format("%.2f", temperatureD.get(2)) + "°C");
 
-        tv_date1.setText(date.get(0));
-        tv_date2.setText(date.get(1));
-        tv_date3.setText(date.get(2));
+        tvDate1.setText(date.get(0));
+        tvDate2.setText(date.get(1));
+        tvDate3.setText(date.get(2));
 
-        setWeatherIcon(iconsIdN.get(0), tv_IconNight1, false);
-        setWeatherIcon(iconsIdN.get(1), tv_IconNight2, false);
-        setWeatherIcon(iconsIdN.get(2), tv_IconNight3, false);
-        setWeatherIcon(iconsIdD.get(0), tv_IconDay1, true);
-        setWeatherIcon(iconsIdD.get(1), tv_IconDay2, true);
-        setWeatherIcon(iconsIdD.get(2), tv_IconDay3, true);
+        setWeatherIcon(iconsIdN.get(0), tvIconNight1, false);
+        setWeatherIcon(iconsIdN.get(1), tvIconNight2, false);
+        setWeatherIcon(iconsIdN.get(2), tvIconNight3, false);
+        setWeatherIcon(iconsIdD.get(0), tvIconDay1, true);
+        setWeatherIcon(iconsIdD.get(1), tvIconDay2, true);
+        setWeatherIcon(iconsIdD.get(2), tvIconDay3, true);
     }
 
 
