@@ -52,5 +52,7 @@
     <string name="relative_humidity">Относит. влажность</string>
     <string name="temperature2">Температура</string>
     <string name="no_sensor">Нет датчика!</string>
+    <string name="netork_failure">Нет сети</string>
+    <string name="wrong_answer">Плохой ответ</string>
 
 </resources>

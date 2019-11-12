@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="Humid_Size">25sp</dimen>
-    <dimen name="humid_value">40sp</dimen>
-    <dimen name="temper_value_font_size">40sp</dimen>
-</resources>

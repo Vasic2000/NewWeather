@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Fragments;
+package ru.vasic2000.newweather.fragments;
 
 import android.app.Activity;
 import android.hardware.Sensor;
@@ -16,32 +16,31 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
-import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
-
-public class Temperature_Sensor extends Fragment implements SensorEventListener {
-    private TextView tv_goBack1;
-    private TextView tv_temperature;
+public class Humidity_Sensor extends Fragment implements SensorEventListener {
+    private TextView tv_goBack3;
+    private TextView tv_humidity;
 
     private SensorManager mSensorManager;
-    private Sensor sensorTemperature;
+    private Sensor sensorHumidity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_temp_sensor, container, false);
+        return inflater.inflate(R.layout.fragment_humid_sensor, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View tSensor = getView();
+        View tHumid = getView();
 
-        tv_goBack1 = tSensor.findViewById(R.id.tv_return1);
-        tv_temperature = tSensor.findViewById(R.id.tv_t_value);
+        tv_goBack3 = tHumid.findViewById(R.id.tv_return3);
+        tv_humidity = tHumid.findViewById(R.id.tv_h_value);
 
-        tv_goBack1.setOnClickListener(new View.OnClickListener() {
+        tv_goBack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
@@ -52,8 +51,8 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
 
         // Менеджер датчиков
         mSensorManager = (SensorManager) Objects.requireNonNull(this.getActivity()).getSystemService(Activity.SENSOR_SERVICE);
-        // Датчик температыры (у меня нет)
-        sensorTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        // Датчик влажности (у меня нет)
+        sensorHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 
 
         // Слушатель датчика температуры
@@ -67,7 +66,7 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
         };
 
         // Регистрируем слушатель датчика температуры
-        mSensorManager.registerListener(listenerTemperature, sensorTemperature,
+        mSensorManager.registerListener(listenerTemperature, sensorHumidity,
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -81,11 +80,11 @@ public class Temperature_Sensor extends Fragment implements SensorEventListener 
 
     }
 
-    // Вывод датчика температуры
+    // Вывод датчика влажности
     private void showTemperatureSensors(SensorEvent event){
         StringBuilder strB = new StringBuilder();
         strB.append(event.values[0]);
-        strB.append("°С");
-        tv_temperature.setText(strB);
+        strB.append("%");
+        tv_humidity.setText(strB);
     }
 }

@@ -13,4 +13,6 @@
     <dimen name="Humid_Size">25sp</dimen>
     <dimen name="humid_value_font_size">40sp</dimen>
     <dimen name="temper_value_font_size">40sp</dimen>
+    <dimen name="Loader_Size">150dp</dimen>
+    <dimen name="devPhoto_size">150dp</dimen>
 </resources>

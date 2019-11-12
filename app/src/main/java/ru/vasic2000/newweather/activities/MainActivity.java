@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.setting);
         } else if (id == R.id.nav_change_city) {
             navController.navigate(R.id.changeCity);
+
         } else if (id == R.id.nav_about) {
             navController.navigate(R.id.aboutDeveloper);
         } else if (id == R.id.nav_feedback) {
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_humid_sensor) {
             navController.navigate(R.id.humidity_sensor);
         }
+        drawer.closeDrawers();
         return true;
     }
 }
