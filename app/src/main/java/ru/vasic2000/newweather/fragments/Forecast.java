@@ -109,8 +109,6 @@ public class Forecast extends Fragment {
         String tempTime;
         String tempDate;
 
-        loadIndicator.setVisibility(View.INVISIBLE);
-
         tvCity.setText(model.cityRestModel.cityName);
 
 //      Ищу данные для 3 часов дня и 3 часов ночи
@@ -150,11 +148,15 @@ public class Forecast extends Fragment {
         setWeatherIcon(iconsIdD.get(0), tvIconDay1, true);
         setWeatherIcon(iconsIdD.get(1), tvIconDay2, true);
         setWeatherIcon(iconsIdD.get(2), tvIconDay3, true);
+
+        forecastLoaderOff();
     }
 
 
     public void updateForecastData(String city, String secretKey) {
-        loadIndicator.setVisibility(View.VISIBLE);
+
+        forecastLoaderOn();
+
         OpenWeatherRepo.getSingleton().getAPI().loadForecast(city, secretKey,
                 "metric").enqueue(new Callback<ForecastRequestRestModel>() {
             @Override
@@ -172,9 +174,62 @@ public class Forecast extends Fragment {
                 Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
             }
         });
-        loadIndicator.setVisibility(View.INVISIBLE);
     }
 
+    private void forecastLoaderOn() {
+        loadIndicator.setVisibility(View.VISIBLE);
+
+        tvCity.setVisibility(View.INVISIBLE);
+        tvGoBack.setVisibility(View.INVISIBLE);
+
+        tvIconNight1.setVisibility(View.INVISIBLE);
+        tvIconNight2.setVisibility(View.INVISIBLE);
+        tvIconNight3.setVisibility(View.INVISIBLE);
+
+        tvIconDay1.setVisibility(View.INVISIBLE);
+        tvIconDay2.setVisibility(View.INVISIBLE);
+        tvIconDay3.setVisibility(View.INVISIBLE);
+
+        tvTemperatureNight1.setVisibility(View.INVISIBLE);
+        tvTemperatureNight2.setVisibility(View.INVISIBLE);
+        tvTemperatureNight3.setVisibility(View.INVISIBLE);
+
+        tvTemperatureDay1.setVisibility(View.INVISIBLE);
+        tvTemperatureDay2.setVisibility(View.INVISIBLE);
+        tvTemperatureDay3.setVisibility(View.INVISIBLE);
+
+        tvDate1.setVisibility(View.INVISIBLE);
+        tvDate2.setVisibility(View.INVISIBLE);
+        tvDate3.setVisibility(View.INVISIBLE);
+    }
+
+
+    private void forecastLoaderOff() {
+        tvCity.setVisibility(View.VISIBLE);
+        tvGoBack.setVisibility(View.VISIBLE);
+
+        tvIconNight1.setVisibility(View.VISIBLE);
+        tvIconNight2.setVisibility(View.VISIBLE);
+        tvIconNight3.setVisibility(View.VISIBLE);
+
+        tvIconDay1.setVisibility(View.VISIBLE);
+        tvIconDay2.setVisibility(View.VISIBLE);
+        tvIconDay3.setVisibility(View.VISIBLE);
+
+        tvTemperatureNight1.setVisibility(View.VISIBLE);
+        tvTemperatureNight2.setVisibility(View.VISIBLE);
+        tvTemperatureNight3.setVisibility(View.VISIBLE);
+
+        tvTemperatureDay1.setVisibility(View.VISIBLE);
+        tvTemperatureDay2.setVisibility(View.VISIBLE);
+        tvTemperatureDay3.setVisibility(View.VISIBLE);
+
+        tvDate1.setVisibility(View.VISIBLE);
+        tvDate2.setVisibility(View.VISIBLE);
+        tvDate3.setVisibility(View.VISIBLE);
+
+        loadIndicator.setVisibility(View.INVISIBLE);
+    }
 
     private void setWeatherIcon(int actualId, TextView weatherIcon, boolean isDayTime) {
         int id = actualId / 100;

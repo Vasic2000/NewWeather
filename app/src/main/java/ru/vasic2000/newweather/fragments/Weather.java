@@ -66,8 +66,8 @@ public class Weather extends Fragment {
     }
 
     private void updateWeatherData(String city, String SecretKey) {
-        loadIndicator.setVisibility(View.VISIBLE);
 
+        weatherLoaderOn();
 
         if(Locale.getDefault().getLanguage().equals("ru")) {
             OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
@@ -108,9 +108,28 @@ public class Weather extends Fragment {
         }
     }
 
-    private void renderWeather(WeatherRequestRestModel model) {
+    private void weatherLoaderOn() {
+        loadIndicator.setVisibility(View.VISIBLE);
+
+        cityTextView.setVisibility(View.INVISIBLE);
+        detailsTextView.setVisibility(View.INVISIBLE);
+        currentTemperatureTextView.setVisibility(View.INVISIBLE);
+        weatherIcon.setVisibility(View.INVISIBLE);
+        forecast.setVisibility(View.INVISIBLE);
+    }
+
+    private void weatherLoaderOff() {
+        cityTextView.setVisibility(View.VISIBLE);
+        detailsTextView.setVisibility(View.VISIBLE);
+        currentTemperatureTextView.setVisibility(View.VISIBLE);
+        weatherIcon.setVisibility(View.VISIBLE);
+        forecast.setVisibility(View.VISIBLE);
 
         loadIndicator.setVisibility(View.INVISIBLE);
+    }
+
+    private void renderWeather(WeatherRequestRestModel model) {
+
         cityTextView.setText(model.cityName.toUpperCase(Locale.US) + "," + model.sys.country);
 
         currentTemperatureTextView.setText(String.format("%.2f", model.main.temperature) + " °C");
@@ -136,6 +155,8 @@ public class Weather extends Fragment {
         detailsTextView.setText(humidityValue);
 
         setWeatherIcon(model.weathers[0].index, model.sys.sunrise, model.sys.sunset);
+
+        weatherLoaderOff();
     }
 
     private void setWeatherIcon(int actualId, long sunrise, long sunset) {
