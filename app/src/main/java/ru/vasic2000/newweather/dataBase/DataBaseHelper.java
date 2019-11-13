@@ -1,14 +1,15 @@
-package ru.vasic2000.newweather.DataBase;
+package ru.vasic2000.newweather.dataBase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DataBasrHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "weathers.db";
     private static final int DATABASE_VERSION = 1;
+    private WeathersTable WeatherTable;
 
-    public DataBasrHelper(Context context) {
+    public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -19,6 +20,6 @@ public class DataBasrHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        WeatherTable.onUpgrade(sqLiteDatabase);
+        WeatherTable.onUpgrade(db);
     }
 }

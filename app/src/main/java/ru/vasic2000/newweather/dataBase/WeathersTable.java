@@ -1,17 +1,24 @@
-package ru.vasic2000.newweather.DataBase;
+package ru.vasic2000.newweather.dataBase;
 
 import android.database.sqlite.SQLiteDatabase;
 
 public class WeathersTable {
     private final static String TABLE_NAME = "Weathers";
     private final static String COLUMN_ID = "CityName";
-    private final static String COLUMN_DETAILS = "Details";
     private final static String COLUMN_TEMP = "Temperaure";
+    private final static String COLUMN_DETAILS = "Details";
     private final static String COLUMN_ICON = "Icon_ID";
+    private final static String COLUMN_TIME = "Time";
 
     static void createTable(SQLiteDatabase database) {
-        database.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_DETAILS + " INTEGER);");
+
+    String SQL_request = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID
+            + " VARCHAR(45) NOT NULL, " + COLUMN_DETAILS + " VARCHAR(45) NOT NULL, "
+            + COLUMN_TEMP + " DECIMAL(2,2) NOT NULL, " + COLUMN_ICON +" VARCHAR(45) NOT NULL, "
+            + COLUMN_TIME + " BIGINT(19) NOT NULL, PRIMARY KEY (" + COLUMN_ID + "));";
+
+
+        database.execSQL(SQL_request);
         //CREATE TABLE Notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, note INTEGER)
     }
 

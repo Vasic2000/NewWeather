@@ -1,5 +1,6 @@
 package ru.vasic2000.newweather.fragments;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import retrofit2.Response;
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 import ru.vasic2000.newweather.activities.MainActivity;
+import ru.vasic2000.newweather.dataBase.DataBaseHelper;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
@@ -31,6 +33,8 @@ public class Weather extends Fragment {
     private TextView weatherIcon;
     private ProgressBar loadIndicator;
     private TextView forecast;
+
+    private SQLiteDatabase sqlBase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +56,8 @@ public class Weather extends Fragment {
         loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
         forecast = rootView.findViewById(R.id.tv_forecast);
 
+        initDB();
+
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         CityPreference cityPreference = new CityPreference(activity);
@@ -63,6 +69,10 @@ public class Weather extends Fragment {
                 activity.changeFragment(R.id.forecast);
             }
         });
+    }
+
+    private void initDB() {
+        sqlBase = new DataBaseHelper(getContext()).getWritableDatabase();
     }
 
     private void updateWeatherData(String city, String SecretKey) {
