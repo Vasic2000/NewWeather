@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -22,6 +23,7 @@ import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.dataBase.DataBaseHelper;
+import ru.vasic2000.newweather.dataBase.WeathersTable;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
@@ -34,7 +36,7 @@ public class Weather extends Fragment {
     private ProgressBar loadIndicator;
     private TextView forecast;
 
-    private SQLiteDatabase sqlBase;
+    private SQLiteDatabase dataBase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,14 +74,23 @@ public class Weather extends Fragment {
     }
 
     private void initDB() {
-        sqlBase = new DataBaseHelper(getContext()).getWritableDatabase();
+        dataBase = new DataBaseHelper(getContext()).getWritableDatabase();
     }
 
     private void updateWeatherData(String city, String SecretKey) {
 
-        weatherLoaderOn();
+        if (WeathersTable.isCityInBase(city, dataBase)) {
+            if (WeathersTable.actualWeatherTime(city, dataBase)) {
+                weatherFromSQL(city, dataBase);
+            }
+        } else {
+            weatherFromInternet(city, SecretKey);
+        }
+    }
 
-        if(Locale.getDefault().getLanguage().equals("ru")) {
+    private void weatherFromInternet(String city, String SecretKey) {
+        weatherLoaderOn();
+        if (Locale.getDefault().getLanguage().equals("ru")) {
             OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
                     "metric").enqueue(new Callback<WeatherRequestRestModel>() {
                 @Override
@@ -117,6 +128,39 @@ public class Weather extends Fragment {
             });
         }
     }
+
+    private void weatherFromSQL(String city, SQLiteDatabase db) {
+        Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
+        List<String> result = WeathersTable.getInfoFromSQL(city, db);
+
+        cityTextView.setText(result.get(0).toUpperCase(Locale.US) + "," + result.get(1));
+        currentTemperatureTextView.setText(result.get(2) +" °C");
+
+        StringBuilder humidityValue = new StringBuilder();
+        if(Locale.getDefault().getLanguage().equals("ru")) {
+            humidityValue.append(result.get(3))
+                    .append("\n")
+                    .append("Влажность: ")
+                    .append(result.get(4))
+                    .append("%\n")
+                    .append(result.get(5))
+                    .append(" кПа");
+        } else  {
+            humidityValue.append(result.get(3))
+                    .append("\n")
+                    .append("Humidity: ")
+                    .append(result.get(4))
+                    .append("%\n")
+                    .append(result.get(5))
+                    .append(" hpa");
+        }
+        detailsTextView.setText(humidityValue);
+
+        setWeatherIcon(Integer.valueOf(result.get(7)), Long.valueOf(result.get(8)), Long.valueOf(result.get(9)));
+
+
+    }
+
 
     private void weatherLoaderOn() {
         loadIndicator.setVisibility(View.VISIBLE);
@@ -165,6 +209,19 @@ public class Weather extends Fragment {
         detailsTextView.setText(humidityValue);
 
         setWeatherIcon(model.weathers[0].index, model.sys.sunrise, model.sys.sunset);
+
+        // Дополняю город с погодой в SQL
+        WeathersTable.addInfo(model.cityName,
+                model.sys.country,
+                model.main.temperature,
+                model.main.humidity,
+                model.main.pressure,
+                model.weathers[0].description,
+                model.weathers[0].index,
+                model.sys.sunrise,
+                model.sys.sunset,
+                System.currentTimeMillis(),
+                dataBase);
 
         weatherLoaderOff();
     }

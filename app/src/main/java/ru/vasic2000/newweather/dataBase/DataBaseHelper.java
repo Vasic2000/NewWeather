@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "weathers.db";
     private static final int DATABASE_VERSION = 1;
-    private WeathersTable WeatherTable;
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -15,11 +14,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        WeatherTable.createTable(db);
+        WeathersTable.createTable(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        WeatherTable.onUpgrade(db);
+        WeathersTable.onUpgrade(db);
+    }
+
+    public static boolean getWeatherTime(String cityName, SQLiteDatabase db) {
+        return WeathersTable.actualWeatherTime(cityName, db);
     }
 }
