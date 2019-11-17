@@ -1,5 +1,6 @@
 package ru.vasic2000.newweather.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +99,7 @@ public class Forecast extends Fragment {
         });
     }
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void renderForecast(ForecastRequestRestModel model) {
         ArrayList<Float> temperatureD = new ArrayList<>();
         ArrayList<Float> temperatureN = new ArrayList<>();

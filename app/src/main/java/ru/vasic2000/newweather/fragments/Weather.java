@@ -1,5 +1,6 @@
 package ru.vasic2000.newweather.fragments;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -133,8 +134,11 @@ public class Weather extends Fragment {
         Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
         List<String> result = WeathersTable.getInfoFromSQL(city, db);
 
-        cityTextView.setText(result.get(0).toUpperCase(Locale.US) + "," + result.get(1));
-        currentTemperatureTextView.setText(result.get(2) +" °C");
+        String cityText = result.get(0).toUpperCase(Locale.US) + "," + result.get(1);
+        cityTextView.setText(cityText);
+
+        @SuppressLint("DefaultLocale") String tempText = result.get(2) +" °C";
+        currentTemperatureTextView.setText(tempText);
 
         StringBuilder humidityValue = new StringBuilder();
         if(Locale.getDefault().getLanguage().equals("ru")) {
@@ -158,7 +162,7 @@ public class Weather extends Fragment {
 
         setWeatherIcon(Integer.valueOf(result.get(7)), Long.valueOf(result.get(8)), Long.valueOf(result.get(9)));
 
-
+        weatherLoaderOff();
     }
 
 
@@ -184,9 +188,11 @@ public class Weather extends Fragment {
 
     private void renderWeather(WeatherRequestRestModel model) {
 
-        cityTextView.setText(model.cityName.toUpperCase(Locale.US) + "," + model.sys.country);
+        String cityText = model.cityName.toUpperCase(Locale.US) + "," + model.sys.country;
+        cityTextView.setText(cityText);
 
-        currentTemperatureTextView.setText(String.format("%.2f", model.main.temperature) + " °C");
+        @SuppressLint("DefaultLocale") String tempText = String.format("%.2f", model.main.temperature) + " °C";
+        currentTemperatureTextView.setText(tempText);
 
         StringBuilder humidityValue = new StringBuilder();
         if(Locale.getDefault().getLanguage().equals("ru")) {
