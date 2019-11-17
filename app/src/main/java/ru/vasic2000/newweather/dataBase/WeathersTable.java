@@ -21,6 +21,8 @@ public class WeathersTable {
 
     public static void createTable(SQLiteDatabase database) {
 
+        database.execSQL("DROP TABLE " + TABLE_NAME + ";");
+
         String SQL_request = "CREATE TABLE " + TABLE_NAME + " ("
                 + COLUMN_ID + " VARCHAR(45) NOT NULL, "
                 + COLUMN_COUNTRY + " VARCHAR(2) NOT NULL, "
@@ -116,7 +118,7 @@ public class WeathersTable {
         Cursor cursor = database.rawQuery(SQL_Request, null);
 
         if (cursor.moveToFirst()) {
-            if(cursor.getString(0) != null) {
+            if(cursor.getString(0).equals(cityName)) {
                 return true;
             }
         }

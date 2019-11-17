@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void fragmentBack() {
-        navController.popBackStack();
         drawer.closeDrawers();
+        navController.popBackStack();
     }
 
     @Override

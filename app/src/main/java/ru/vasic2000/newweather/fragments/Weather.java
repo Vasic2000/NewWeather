@@ -83,8 +83,6 @@ public class Weather extends Fragment {
         if (WeathersTable.isCityInBase(city, dataBase)) {
             if (WeathersTable.actualWeatherTime(city, dataBase)) {
                 weatherFromSQL(city, dataBase);
-            } else {
-                weatherFromInternet(city, SecretKey);
             }
         } else {
             weatherFromInternet(city, SecretKey);
@@ -136,33 +134,34 @@ public class Weather extends Fragment {
         Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
         List<String> result = WeathersTable.getInfoFromSQL(city, db);
 
-        String cityText = result.get(0).toUpperCase(Locale.US) + "," + result.get(1);
+        String cityText = result.get(0).toUpperCase(Locale.US) + "," + result.get(1).toUpperCase(Locale.US);
         cityTextView.setText(cityText);
 
-        @SuppressLint("DefaultLocale") String tempText = result.get(2) +" °C";
+        String tempText = result.get(2) +" °C";
         currentTemperatureTextView.setText(tempText);
+
 
         StringBuilder humidityValue = new StringBuilder();
         if(Locale.getDefault().getLanguage().equals("ru")) {
-            humidityValue.append(result.get(3))
+            humidityValue.append(result.get(5))
                     .append("\n")
                     .append("Влажность: ")
                     .append(result.get(4))
                     .append("%\n")
-                    .append(result.get(5))
+                    .append(result.get(3))
                     .append(" кПа");
         } else  {
-            humidityValue.append(result.get(3))
+            humidityValue.append(result.get(5))
                     .append("\n")
                     .append("Humidity: ")
                     .append(result.get(4))
                     .append("%\n")
-                    .append(result.get(5))
+                    .append(result.get(3))
                     .append(" hpa");
         }
         detailsTextView.setText(humidityValue);
 
-        setWeatherIcon(Integer.valueOf(result.get(7)), Long.valueOf(result.get(8)), Long.valueOf(result.get(9)));
+        setWeatherIcon(Integer.valueOf(result.get(6)), Long.valueOf(result.get(7)), Long.valueOf(result.get(8)));
 
         weatherLoaderOff();
     }
