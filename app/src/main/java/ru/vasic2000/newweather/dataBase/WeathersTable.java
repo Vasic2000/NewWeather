@@ -102,7 +102,7 @@ public class WeathersTable {
         if(cursor.moveToFirst()) {
             long baseInfoTime = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
             Long newTime = System.currentTimeMillis();
-            if (Math.abs(newTime - baseInfoTime) < 60000) {
+            if (Math.abs(newTime - baseInfoTime) < 3600000) {
                 return true;
             } else {
                 return false;
