@@ -83,6 +83,8 @@ public class Weather extends Fragment {
         if (WeathersTable.isCityInBase(city, dataBase)) {
             if (WeathersTable.actualWeatherTime(city, dataBase)) {
                 weatherFromSQL(city, dataBase);
+            } else {
+                weatherFromInternet(city, SecretKey);
             }
         } else {
             weatherFromInternet(city, SecretKey);

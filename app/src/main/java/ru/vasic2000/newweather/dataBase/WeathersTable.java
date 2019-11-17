@@ -55,22 +55,6 @@ public class WeathersTable {
                                SQLiteDatabase database) {
 
         if(!isCityInBase(cityName, database)) {
-//            ContentValues values = new ContentValues();
-//            values.put(COLUMN_ID, cityName);
-//            values.put(COLUMN_COUNTRY, country);
-//            values.put(COLUMN_TEMP, temp);
-//            values.put(COLUMN_PRESS, pressure);
-//            values.put(COLUMN_HUMIDITY, humidity);
-//            values.put(COLUMN_DETAILS, details);
-//            values.put(COLUMN_ICON, iconID);
-//            values.put(COLUMN_SUNRISE, sunrise);
-//            values.put(COLUMN_SUNSET, sunset);
-//            values.put(COLUMN_TIME, time);
-//            database.insert(TABLE_NAME, null, values);
-//
-//            INSERT INTO Weathers (CityName, Country, Temperature, Pressure, Humidity, Details, Icon_ID, Sunrise, Sunset, Time)
-//            VALUES ('Mytishchi', 'ru', '10.4', '1010', '95', 'mist', '701', '1021', '1024', '6617');
-
             String SQL_request = "INSERT INTO " + TABLE_NAME + " ("
                     + COLUMN_ID + ", "
                     + COLUMN_COUNTRY + ", "
@@ -85,8 +69,8 @@ public class WeathersTable {
                     + cityName + "', '"
                     + country + "', "
                     + temp + ", "
-                    + pressure + ", "
-                    + humidity + ", '"
+                    + humidity + ", "
+                    + pressure + ", '"
                     + details + "', "
                     + iconID + ", "
                     + sunrise + ", "
@@ -117,7 +101,8 @@ public class WeathersTable {
 
         if(cursor.moveToFirst()) {
             long baseInfoTime = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
-            if (Math.abs(System.currentTimeMillis() - baseInfoTime) < 3600000) {
+            Long newTime = System.currentTimeMillis();
+            if (Math.abs(newTime - baseInfoTime) < 60000) {
                 return true;
             } else {
                 return false;

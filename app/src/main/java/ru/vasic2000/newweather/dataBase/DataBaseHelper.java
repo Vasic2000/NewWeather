@@ -21,8 +21,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         WeathersTable.onUpgrade(db);
     }
-
-    public static boolean getWeatherTime(String cityName, SQLiteDatabase db) {
-        return WeathersTable.actualWeatherTime(cityName, db);
-    }
 }
