@@ -9,6 +9,7 @@
     android:background="#FFFFFF"
     tools:context=".fragments.ChangeCity">
 
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/et_city_field"
         android:layout_width="wrap_content"
