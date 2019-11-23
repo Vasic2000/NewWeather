@@ -1,5 +1,7 @@
 package ru.vasic2000.newweather.fragments;
 
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -20,6 +23,8 @@ import retrofit2.Response;
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 import ru.vasic2000.newweather.activities.MainActivity;
+import ru.vasic2000.newweather.dataBase.DataBaseHelper;
+import ru.vasic2000.newweather.dataBase.WeathersTable;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
@@ -31,6 +36,8 @@ public class Weather extends Fragment {
     private TextView weatherIcon;
     private ProgressBar loadIndicator;
     private TextView forecast;
+
+    private SQLiteDatabase dataBase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +59,8 @@ public class Weather extends Fragment {
         loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
         forecast = rootView.findViewById(R.id.tv_forecast);
 
+        initDB();
+
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         CityPreference cityPreference = new CityPreference(activity);
@@ -65,11 +74,24 @@ public class Weather extends Fragment {
         });
     }
 
+    private void initDB() {
+        dataBase = new DataBaseHelper(getContext()).getWritableDatabase();
+    }
+
     private void updateWeatherData(String city, String SecretKey) {
-        loadIndicator.setVisibility(View.VISIBLE);
 
+        if (WeathersTable.isCityInBase(city, dataBase)) {
+            if (WeathersTable.actualWeatherTime(city, dataBase)) {
+                weatherFromSQL(city, dataBase);
+            }
+        } else {
+            weatherFromInternet(city, SecretKey);
+        }
+    }
 
-        if(Locale.getDefault().getLanguage().equals("ru")) {
+    private void weatherFromInternet(String city, String SecretKey) {
+        weatherLoaderOn();
+        if (Locale.getDefault().getLanguage().equals("ru")) {
             OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
                     "metric").enqueue(new Callback<WeatherRequestRestModel>() {
                 @Override
@@ -108,12 +130,70 @@ public class Weather extends Fragment {
         }
     }
 
-    private void renderWeather(WeatherRequestRestModel model) {
+    private void weatherFromSQL(String city, SQLiteDatabase db) {
+        Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
+        List<String> result = WeathersTable.getInfoFromSQL(city, db);
+
+        String cityText = result.get(0).toUpperCase(Locale.US) + "," + result.get(1).toUpperCase(Locale.US);
+        cityTextView.setText(cityText);
+
+        String tempText = result.get(2) +" °C";
+        currentTemperatureTextView.setText(tempText);
+
+
+        StringBuilder humidityValue = new StringBuilder();
+        if(Locale.getDefault().getLanguage().equals("ru")) {
+            humidityValue.append(result.get(5))
+                    .append("\n")
+                    .append("Влажность: ")
+                    .append(result.get(4))
+                    .append("%\n")
+                    .append(result.get(3))
+                    .append(" кПа");
+        } else  {
+            humidityValue.append(result.get(5))
+                    .append("\n")
+                    .append("Humidity: ")
+                    .append(result.get(4))
+                    .append("%\n")
+                    .append(result.get(3))
+                    .append(" hpa");
+        }
+        detailsTextView.setText(humidityValue);
+
+        setWeatherIcon(Integer.valueOf(result.get(6)), Long.valueOf(result.get(7)), Long.valueOf(result.get(8)));
+
+        weatherLoaderOff();
+    }
+
+
+    private void weatherLoaderOn() {
+        loadIndicator.setVisibility(View.VISIBLE);
+
+        cityTextView.setVisibility(View.INVISIBLE);
+        detailsTextView.setVisibility(View.INVISIBLE);
+        currentTemperatureTextView.setVisibility(View.INVISIBLE);
+        weatherIcon.setVisibility(View.INVISIBLE);
+        forecast.setVisibility(View.INVISIBLE);
+    }
+
+    private void weatherLoaderOff() {
+        cityTextView.setVisibility(View.VISIBLE);
+        detailsTextView.setVisibility(View.VISIBLE);
+        currentTemperatureTextView.setVisibility(View.VISIBLE);
+        weatherIcon.setVisibility(View.VISIBLE);
+        forecast.setVisibility(View.VISIBLE);
 
         loadIndicator.setVisibility(View.INVISIBLE);
-        cityTextView.setText(model.cityName.toUpperCase(Locale.US) + "," + model.sys.country);
+    }
 
-        currentTemperatureTextView.setText(String.format("%.2f", model.main.temperature) + " °C");
+    private void renderWeather(WeatherRequestRestModel model) {
+
+        String cityText = model.cityName.toUpperCase(Locale.US) + "," + model.sys.country;
+        cityTextView.setText(cityText);
+
+        @SuppressLint("DefaultLocale") String tempText = String.format("%.2f", model.main.temperature) + " °C";
+        currentTemperatureTextView.setText(tempText);
 
         StringBuilder humidityValue = new StringBuilder();
         if(Locale.getDefault().getLanguage().equals("ru")) {
@@ -136,6 +216,21 @@ public class Weather extends Fragment {
         detailsTextView.setText(humidityValue);
 
         setWeatherIcon(model.weathers[0].index, model.sys.sunrise, model.sys.sunset);
+
+        // Дополняю город с погодой в SQL
+        WeathersTable.addInfo(model.cityName,
+                model.sys.country,
+                model.main.temperature,
+                model.main.humidity,
+                model.main.pressure,
+                model.weathers[0].description,
+                model.weathers[0].index,
+                model.sys.sunrise,
+                model.sys.sunset,
+                System.currentTimeMillis(),
+                dataBase);
+
+        weatherLoaderOff();
     }
 
     private void setWeatherIcon(int actualId, long sunrise, long sunset) {
