@@ -16,4 +16,21 @@ public interface IOpenWeather {
     Call<ForecastRequestRestModel> loadForecast(@Query("q") String city,
                                                 @Query("appid") String keyApi,
                                                 @Query("units") String units);
+
+    @GET("data/2.5/weather")
+    Call<WeatherRequestRestModel> loadWeatherCoord(@Query("lat") double lat,
+                                                   @Query("lon") double lon,
+                                                   @Query("appid") String keyApi,
+                                                   @Query("lang") String lang,
+                                                   @Query("units") String units);
+    @GET("data/2.5/forecast")
+    Call<ForecastRequestRestModel> loadForecastCoord(@Query("lat") double lat,
+                                                     @Query("lon") double lon,
+                                                     @Query("appid") String keyApi,
+                                                     @Query("units") String units);
+
+
+
+
+
 }

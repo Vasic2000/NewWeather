@@ -1,0 +1,44 @@
+// http://api.openweathermap.org/data/2.5/weather?q=Moscow&APPID=07795d846f9c55c418379de9d14962e7
+
+{
+  "coord": {
+    "lon": 37.62,
+    "lat": 55.75
+  },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "overcast clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 268.38,
+    "pressure": 1041,
+    "humidity": 57,
+    "temp_min": 267.15,
+    "temp_max": 269.26
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 2,
+    "deg": 180
+  },
+  "clouds": {
+    "all": 99
+  },
+  "dt": 1574502834,
+  "sys": {
+    "type": 1,
+    "id": 9029,
+    "country": "RU",
+    "sunrise": 1574486392,
+    "sunset": 1574514725
+  },
+  "timezone": 10800,
+  "id": 524901,
+  "name": "Moscow",
+  "cod": 200
+}

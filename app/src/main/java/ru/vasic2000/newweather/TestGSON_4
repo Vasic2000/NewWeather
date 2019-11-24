@@ -1,0 +1,45 @@
+//http://api.openweathermap.org/data/2.5/weather?lat=36&lon=57&APPID=07795d846f9c55c418379de9d14962e7
+
+{
+  "coord": {
+    "lon": 36,
+    "lat": 57
+  },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "overcast clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "model",
+  "main": {
+    "temp": 267.95,
+    "pressure": 1040,
+    "humidity": 43,
+    "temp_min": 267.95,
+    "temp_max": 267.95,
+    "sea_level": 1040,
+    "grnd_level": 1021
+  },
+  "wind": {
+    "speed": 2.71,
+    "deg": 179
+  },
+  "clouds": {
+    "all": 86
+  },
+  "dt": 1574500223,
+  "sys": {
+    "country": "RU",
+    "sunrise": 1574487191,
+    "sunset": 1574514703
+  },
+  "timezone": 10800,
+  "id": 476548,
+  "name": "Vasilyevskiy Mokh",
+  "cod": 200
+}
+
+

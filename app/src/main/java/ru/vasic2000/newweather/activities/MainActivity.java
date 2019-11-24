@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
+        cityPreference.setCity("");
     }
 
     @Override
@@ -48,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         int currentFragmentID = navController.getCurrentDestination().getId();
         int startDestination = navController.getGraph().getStartDestination();
-        if(currentFragmentID == startDestination)
+        if (currentFragmentID == startDestination) {
+            cityPreference.setCity("");
             finish();
-        else {
+        } else {
             fragmentBack();
         }
     }
