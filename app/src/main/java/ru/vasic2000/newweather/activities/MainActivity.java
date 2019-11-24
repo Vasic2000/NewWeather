@@ -1,5 +1,7 @@
 package ru.vasic2000.newweather.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,6 +21,8 @@ import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int PERMISSION_REQUEST_CODE = 10;
 
     private NavController navController;
     private DrawerLayout drawer;
@@ -40,7 +45,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
-        cityPreference.setCity("");
+
+        // Проверим на пермиссии, и если их нет, запросим у пользователя
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // пермиссии нет, будем запрашивать у пользователя
+            requestLocationPermissions();
+        }
     }
 
     @Override
@@ -136,5 +147,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawer.closeDrawers();
         return true;
+    }
+
+    // Запрос пермиссии для геолокации
+    private void requestLocationPermissions() {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+            // Запросим эти две пермиссии у пользователя
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    PERMISSION_REQUEST_CODE);
+        }
     }
 }

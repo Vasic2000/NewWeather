@@ -39,8 +39,6 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class Weather extends Fragment {
 
-    private static final int PERMISSION_REQUEST_CODE = 10;
-
     private LocationManager locationManager;
     private String provider;
 
@@ -91,7 +89,6 @@ public class Weather extends Fragment {
     }
 
     private void updateCurrentCoordinates() {
-        // Проверим на пермиссии, и если их нет, запросим у пользователя
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // запросим координаты
@@ -104,20 +101,15 @@ public class Weather extends Fragment {
                 @Override
                 public void onLocationChanged(Location location) {
                     if (location != null) {
-                        CityPreference cityPreference = new CityPreference(getActivity());
-                        updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
                         weatherFromInternetByCoord(location.getLatitude(), location.getLongitude());
                     }
                 }
-
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
                 }
-
                 @Override
                 public void onProviderEnabled(String provider) {
                 }
-
                 @Override
                 public void onProviderDisabled(String provider) {
                 }
@@ -127,8 +119,8 @@ public class Weather extends Fragment {
                 locationManager.requestLocationUpdates(provider, 3600000, 100, ls);
             }
         } else {
-            // пермиссии нет, будем запрашивать у пользователя
-            requestLocationPermissions();
+            // пермиссии не появилось - выход
+            return;
         }
     }
 
@@ -203,7 +195,21 @@ public class Weather extends Fragment {
                 public void onResponse(Call<WeatherRequestRestModel> call,
                                        Response<WeatherRequestRestModel> response) {
                     if (response.body() != null && response.isSuccessful()) {
-                        cityPreference.setCity(response.body().cityName);
+                        String cityText;
+                        if (response.body().cityName != null) {
+                            if(!response.body().cityName.equals("")) {
+                                if (response.body().sys.country != null) {
+                                    cityText = response.body().cityName.toUpperCase(Locale.US) + "," + response.body().sys.country;
+                                } else {
+                                    cityText = response.body().cityName.toUpperCase(Locale.US);
+                                }
+                            } else {
+                                cityText = response.body().coords.latitude + " : " + response.body().coords.longitude; // Широта : Долгота
+                            }
+                        } else {
+                            cityText = response.body().coords.latitude + " : " + response.body().coords.longitude; // Широта : Долгота
+                        }
+                        cityPreference.setCity(cityText);
                         renderWeather(response.body());
                     } else {
                         Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
@@ -222,7 +228,21 @@ public class Weather extends Fragment {
                 public void onResponse(Call<WeatherRequestRestModel> call,
                                        Response<WeatherRequestRestModel> response) {
                     if (response.body() != null && response.isSuccessful()) {
-                        cityPreference.setCity(response.body().cityName);
+                        String cityText;
+                        if (response.body().cityName != null) {
+                            if(!response.body().cityName.equals("")) {
+                                if (response.body().sys.country != null) {
+                                    cityText = response.body().cityName.toUpperCase(Locale.US) + "," + response.body().sys.country;
+                                } else {
+                                    cityText = response.body().cityName.toUpperCase(Locale.US);
+                                }
+                            } else {
+                                cityText = response.body().coords.latitude + " : " + response.body().coords.longitude; // Широта : Долгота
+                            }
+                        } else {
+                            cityText = response.body().coords.latitude + " : " + response.body().coords.longitude; // Широта : Долгота
+                        }
+                        cityPreference.setCity(cityText);
                         renderWeather(response.body());
                     } else {
                         Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
@@ -296,8 +316,21 @@ public class Weather extends Fragment {
     }
 
     private void renderWeather(WeatherRequestRestModel model) {
+        String cityText;
+        if (model.cityName != null) {
+            if(!model.cityName.equals("")) {
+                if (model.sys.country != null) {
+                    cityText = model.cityName.toUpperCase(Locale.US) + "," + model.sys.country;
+                } else {
+                    cityText = model.cityName.toUpperCase(Locale.US);
+                }
+            } else {
+                cityText = model.coords.latitude + " : " + model.coords.longitude; // Широта : Долгота
+            }
+        } else {
+            cityText = model.coords.latitude + " : " + model.coords.longitude; // Широта : Долгота
+        }
 
-        String cityText = model.cityName.toUpperCase(Locale.US) + "," + model.sys.country;
         cityTextView.setText(cityText);
 
         @SuppressLint("DefaultLocale") String tempText = String.format("%.2f", model.main.temperature) + " °C";
@@ -377,18 +410,5 @@ public class Weather extends Fragment {
             }
         }
         weatherIcon.setText(icon);
-    }
-
-    // Запрос пермиссии для геолокации
-    private void requestLocationPermissions() {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE)) {
-            // Запросим эти две пермиссии у пользователя
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    },
-                    PERMISSION_REQUEST_CODE);
-        }
     }
 }
