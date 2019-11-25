@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
+import ru.vasic2000.newweather.fragments.Weather;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -33,6 +34,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Проверим на пермиссии, и если их нет, запросим у пользователя
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // пермиссии нет, будем запрашивать у пользователя
+            requestLocationPermissions();
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,13 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         cityPreference = new CityPreference(this);
-
-        // Проверим на пермиссии, и если их нет, запросим у пользователя
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // пермиссии нет, будем запрашивать у пользователя
-            requestLocationPermissions();
-        }
     }
 
     @Override

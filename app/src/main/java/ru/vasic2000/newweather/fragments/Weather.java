@@ -116,7 +116,7 @@ public class Weather extends Fragment {
             };
 
             if (provider != null) {
-                locationManager.requestLocationUpdates(provider, 3600000, 100, ls);
+                        locationManager.requestSingleUpdate(provider, ls, null);
             }
         } else {
             // пермиссии не появилось - выход
