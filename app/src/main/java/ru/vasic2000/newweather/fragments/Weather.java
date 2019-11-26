@@ -1,13 +1,7 @@
 package ru.vasic2000.newweather.fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
@@ -35,12 +28,7 @@ import ru.vasic2000.newweather.dataBase.WeathersTable;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 public class Weather extends Fragment {
-
-    private LocationManager locationManager;
-    private String provider;
 
     private TextView cityTextView;
     private TextView detailsTextView;
@@ -49,6 +37,8 @@ public class Weather extends Fragment {
     private ProgressBar loadIndicator;
     private TextView forecast;
 
+    private MainActivity activity;
+    private CityPreference cityPreference;
     private SQLiteDatabase dataBase;
 
     @Override
@@ -60,6 +50,8 @@ public class Weather extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        cityPreference = new CityPreference(getActivity());
+
         super.onActivityCreated(savedInstanceState);
 
         View rootView = getView();
@@ -73,11 +65,8 @@ public class Weather extends Fragment {
 
         initDB();
 
-        updateCurrentCoordinates();
-
-        final MainActivity activity = (MainActivity) getActivity();
+        activity = (MainActivity) getActivity();
         assert activity != null;
-        CityPreference cityPreference = new CityPreference(activity);
         updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
 
         forecast.setOnClickListener(new View.OnClickListener() {
@@ -88,48 +77,12 @@ public class Weather extends Fragment {
         });
     }
 
-    private void updateCurrentCoordinates() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // запросим координаты
-            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-            provider = locationManager.getBestProvider(criteria, true);
-
-            LocationListener ls = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    if (location != null) {
-                        weatherFromInternetByCoord(location.getLatitude(), location.getLongitude());
-                    }
-                }
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                }
-                @Override
-                public void onProviderEnabled(String provider) {
-                }
-                @Override
-                public void onProviderDisabled(String provider) {
-                }
-            };
-
-            if (provider != null) {
-                        locationManager.requestSingleUpdate(provider, ls, null);
-            }
-        } else {
-            // пермиссии не появилось - выход
-            return;
-        }
-    }
-
     private void initDB() {
         dataBase = new DataBaseHelper(getContext()).getWritableDatabase();
     }
 
     private void updateWeatherData(String city, String SecretKey) {
-        if(!city.equals("")) {
+        if(!city.equals("") && !city.equals(null)) {
             if (WeathersTable.isCityInBase(city, dataBase)) {
                 if (WeathersTable.actualWeatherTime(city, dataBase)) {
                     weatherFromSQL(city, dataBase);
@@ -138,55 +91,63 @@ public class Weather extends Fragment {
                 weatherFromInternet(city, SecretKey);
             }
         }
+
+        Double lat = activity.getLatitude();
+        Double lon = activity.getLongitude();
+
+        weatherFromInternetByCoord(lat, lon);
     }
 
     private void weatherFromInternet(String city, String SecretKey) {
         weatherLoaderOn();
-        if (Locale.getDefault().getLanguage().equals("ru")) {
-            OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
-                    "metric").enqueue(new Callback<WeatherRequestRestModel>() {
-                @Override
-                public void onResponse(Call<WeatherRequestRestModel> call,
-                                       Response<WeatherRequestRestModel> response) {
-                    if (response.body() != null && response.isSuccessful()) {
-                        renderWeather(response.body());
-                    } else {
-                        Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+        if(!city.equals("") && !city.equals(null)) {
+            if (Locale.getDefault().getLanguage().equals("ru")) {
+                OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "RU",
+                        "metric").enqueue(new Callback<WeatherRequestRestModel>() {
+                    @Override
+                    public void onResponse(Call<WeatherRequestRestModel> call,
+                                           Response<WeatherRequestRestModel> response) {
+                        if (response.body() != null && response.isSuccessful()) {
+                            renderWeather(response.body());
+                        } else {
+                            Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
-                    Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
+                        Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "EN",
+                        "metric").enqueue(new Callback<WeatherRequestRestModel>() {
+                    @Override
+                    public void onResponse(Call<WeatherRequestRestModel> call,
+                                           Response<WeatherRequestRestModel> response) {
+                        if (response.body() != null && response.isSuccessful()) {
+                            renderWeather(response.body());
+                        } else {
+                            Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
+                        Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         } else {
-            OpenWeatherRepo.getSingleton().getAPI().loadWeather(city, SecretKey, "EN",
-                    "metric").enqueue(new Callback<WeatherRequestRestModel>() {
-                @Override
-                public void onResponse(Call<WeatherRequestRestModel> call,
-                                       Response<WeatherRequestRestModel> response) {
-                    if (response.body() != null && response.isSuccessful()) {
-                        renderWeather(response.body());
-                    } else {
-                        Toast.makeText(getContext(), getString(R.string.wrong_answer), Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<WeatherRequestRestModel> call, Throwable t) {
-                    Toast.makeText(getContext(), getString(R.string.netork_failure), Toast.LENGTH_LONG).show();
-                }
-            });
+            weatherFromInternetByCoord(activity.getLatitude(), activity.getLongitude());
         }
     }
 
 
     private void weatherFromInternetByCoord(double lat, double lon) {
         weatherLoaderOn();
-        final CityPreference cityPreference = new CityPreference(getActivity());
+        cityPreference = new CityPreference(getActivity());
         String SecretKey = cityPreference.getSecretKey();
-
 
         if (Locale.getDefault().getLanguage().equals("ru")) {
             OpenWeatherRepo.getSingleton().getAPI().loadWeatherCoord(lat, lon, SecretKey, "RU",

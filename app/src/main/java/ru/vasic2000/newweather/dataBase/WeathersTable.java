@@ -66,7 +66,7 @@ public class WeathersTable {
                     + COLUMN_SUNRISE + ", "
                     + COLUMN_SUNSET + ", "
                     + COLUMN_TIME + ") VALUES ('"
-                    + cityName + "', '"
+                    + cityName + ","+ country + "', '"
                     + country + "', "
                     + temp + ", "
                     + humidity + ", "
@@ -95,7 +95,7 @@ public class WeathersTable {
     }
 
     public static boolean actualWeatherTime(String cityName, SQLiteDatabase database) {
-        String SQL_Request = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + cityName + "';";
+        String SQL_Request = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + cityName  + "';";
 
         Cursor cursor = database.rawQuery(SQL_Request, null);
 

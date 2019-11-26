@@ -2,6 +2,10 @@ package ru.vasic2000.newweather.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,15 +23,32 @@ import com.google.android.material.navigation.NavigationView;
 
 import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
-import ru.vasic2000.newweather.fragments.Weather;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PERMISSION_REQUEST_CODE = 10;
+    private LocationManager locationManager;
+    private String provider;
 
     private NavController navController;
     private DrawerLayout drawer;
     private CityPreference cityPreference;
+
+    private Double latitude = 0.0;
+    private Double longitude = 0.0;
+
+    public Double getLatitude() {
+        return latitude;
+    }
+    public Double getLongitude() {
+        return longitude;
+    }
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +60,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // пермиссии нет, будем запрашивать у пользователя
             requestLocationPermissions();
+        } else {
+            requestLocation();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            drawer = findViewById(R.id.drawer_layout);
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            navigationView.setNavigationItemSelectedListener(this);
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            cityPreference = new CityPreference(this);
         }
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        cityPreference = new CityPreference(this);
     }
 
     @Override
@@ -160,6 +182,71 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Manifest.permission.ACCESS_FINE_LOCATION
                     },
                     PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    // Это результат запроса у пользователя пермиссии
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {   // Это та самая пермиссия, что мы запрашивали?
+            if (grantResults.length == 2 &&
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                // Все препоны пройдены и пермиссия дана
+                requestLocation();
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                drawer = findViewById(R.id.drawer_layout);
+                NavigationView navigationView = findViewById(R.id.nav_view);
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawer.addDrawerListener(toggle);
+                toggle.syncState();
+                navigationView.setNavigationItemSelectedListener(this);
+                navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                cityPreference = new CityPreference(this);
+            }
+        }
+    }
+
+    private void requestLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // запросим координаты
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            provider = locationManager.getBestProvider(criteria, true);
+            Location loc = new Location(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            setLatitude(loc.getLatitude());
+            setLongitude(loc.getLongitude());
+
+            LocationListener ls = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if (location != null) {
+                        setLatitude(location.getLatitude());
+                        setLongitude(location.getLongitude());
+                    }
+                }
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+                @Override
+                public void onProviderEnabled(String provider) {
+                }
+                @Override
+                public void onProviderDisabled(String provider) {
+                }
+            };
+
+            if (provider != null) {
+                locationManager.requestSingleUpdate(provider, ls, null);
+            }
+        } else {
+            // пермиссии не появилось - выход
+            return;
         }
     }
 }
