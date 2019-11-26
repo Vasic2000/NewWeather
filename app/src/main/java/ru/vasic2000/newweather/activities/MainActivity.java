@@ -218,7 +218,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_COARSE);
             provider = locationManager.getBestProvider(criteria, true);
-            Location loc = new Location(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+
+            Location loc = locationManager.getLastKnownLocation(provider);
             setLatitude(loc.getLatitude());
             setLongitude(loc.getLongitude());
 

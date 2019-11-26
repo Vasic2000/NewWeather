@@ -90,12 +90,11 @@ public class Weather extends Fragment {
             } else {
                 weatherFromInternet(city, SecretKey);
             }
+        } else {
+            Double lat = activity.getLatitude();
+            Double lon = activity.getLongitude();
+            weatherFromInternetByCoord(lat, lon);
         }
-
-        Double lat = activity.getLatitude();
-        Double lon = activity.getLongitude();
-
-        weatherFromInternetByCoord(lat, lon);
     }
 
     private void weatherFromInternet(String city, String SecretKey) {
@@ -320,7 +319,7 @@ public class Weather extends Fragment {
         setWeatherIcon(model.weathers[0].index, model.sys.sunrise, model.sys.sunset);
 
         // Дополняю город с погодой в SQL
-        WeathersTable.addInfo(model.cityName,
+        WeathersTable.addInfo(cityText,
                 model.sys.country,
                 model.main.temperature,
                 model.main.humidity,
