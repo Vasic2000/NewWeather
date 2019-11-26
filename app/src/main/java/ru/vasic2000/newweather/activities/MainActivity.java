@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private CityPreference cityPreference;
 
-    private Double latitude = 0.0;
-    private Double longitude = 0.0;
+    private Double latitude;
+    private Double longitude;
 
     public Double getLatitude() {
         return latitude;

@@ -66,7 +66,7 @@ public class WeathersTable {
                     + COLUMN_SUNRISE + ", "
                     + COLUMN_SUNSET + ", "
                     + COLUMN_TIME + ") VALUES ('"
-                    + cityName.toUpperCase() + ","+ country.toUpperCase() + "', '"
+                    + cityName.toUpperCase() + "', '"
                     + country + "', "
                     + temp + ", "
                     + humidity + ", "
