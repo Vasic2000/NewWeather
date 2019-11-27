@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class CityPreference {
     private static final String KEY = "city";
-    private static final String MOSCOW = "Moscow";
+    private static final String MOSCOW = "";
     private static final String OW_KEY = "APPID";
     private static final String OW_MY_KEY = "07795d846f9c55c418379de9d14962e7";
 

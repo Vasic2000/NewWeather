@@ -66,7 +66,7 @@ public class WeathersTable {
                     + COLUMN_SUNRISE + ", "
                     + COLUMN_SUNSET + ", "
                     + COLUMN_TIME + ") VALUES ('"
-                    + cityName + "', '"
+                    + cityName.toUpperCase() + "', '"
                     + country + "', "
                     + temp + ", "
                     + humidity + ", "
@@ -76,7 +76,6 @@ public class WeathersTable {
                     + sunrise + ", "
                     + sunset + ", "
                     + time + ");";
-
             database.execSQL(SQL_request);
         } else {
             String SQL_request ="UPDATE " + TABLE_NAME + " SET "
@@ -95,7 +94,7 @@ public class WeathersTable {
     }
 
     public static boolean actualWeatherTime(String cityName, SQLiteDatabase database) {
-        String SQL_Request = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + cityName + "';";
+        String SQL_Request = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + cityName  + "';";
 
         Cursor cursor = database.rawQuery(SQL_Request, null);
 
@@ -112,14 +111,18 @@ public class WeathersTable {
     }
 
     public static boolean isCityInBase(String cityName, SQLiteDatabase database) {
-        String SQL_Request = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + cityName + "';";
+        String SQL_Request = "SELECT * FROM " + TABLE_NAME.toUpperCase() + " WHERE " + COLUMN_ID + " = '" + cityName + "';";
         Cursor cursor = database.rawQuery(SQL_Request, null);
+
+        boolean cur = cursor.moveToFirst();
 
         if (cursor.moveToFirst()) {
             if(cursor.getString(0).equals(cityName)) {
                 return true;
             }
+
         }
+
         return false;
     }
 
