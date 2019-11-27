@@ -1,7 +1,13 @@
 package ru.vasic2000.newweather.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
@@ -28,7 +36,13 @@ import ru.vasic2000.newweather.dataBase.WeathersTable;
 import ru.vasic2000.newweather.rest.entities.OpenWeatherRepo;
 import ru.vasic2000.newweather.rest.entities.Weather.WeatherRequestRestModel;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class Weather extends Fragment {
+
+    private static final int PERMISSION_REQUEST_CODE = 10;
+    private LocationManager locationManager;
+    private String provider;
 
     private TextView cityTextView;
     private TextView detailsTextView;
@@ -50,31 +64,38 @@ public class Weather extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        cityPreference = new CityPreference(getActivity());
-
         super.onActivityCreated(savedInstanceState);
+        // Проверим на пермиссии, и если их нет, запросим у пользователя
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // пермиссии нет, будем запрашивать у пользователя
+            requestLocationPermissions();
+        } else {
+            requestLocation();
+            cityPreference = new CityPreference(getActivity());
 
-        View rootView = getView();
-        assert rootView != null;
-        cityTextView = rootView.findViewById(R.id.city_field);
-        detailsTextView = rootView.findViewById(R.id.details_field);
-        currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
-        weatherIcon = rootView.findViewById(R.id.weather_icon_field);
-        loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
-        forecast = rootView.findViewById(R.id.tv_forecast);
+            View rootView = getView();
+            assert rootView != null;
+            cityTextView = rootView.findViewById(R.id.city_field);
+            detailsTextView = rootView.findViewById(R.id.details_field);
+            currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
+            weatherIcon = rootView.findViewById(R.id.weather_icon_field);
+            loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
+            forecast = rootView.findViewById(R.id.tv_forecast);
 
-        initDB();
+            initDB();
 
-        activity = (MainActivity) getActivity();
-        assert activity != null;
-        updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+            activity = (MainActivity) getActivity();
+            assert activity != null;
+            updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
 
-        forecast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.changeFragment(R.id.forecast);
-            }
-        });
+            forecast.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.changeFragment(R.id.forecast);
+                }
+            });
+        }
     }
 
     private void initDB() {
@@ -91,9 +112,17 @@ public class Weather extends Fragment {
                 weatherFromInternet(city, SecretKey);
             }
         } else {
-            Double lat = activity.getLatitude();
-            Double lon = activity.getLongitude();
-            weatherFromInternetByCoord(lat, lon);
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // пермиссии нет, будем запрашивать у пользователя
+                requestLocationPermissions();
+            } else {
+                Location loc = locationManager.getLastKnownLocation(provider);
+                weatherFromInternetByCoord(loc.getLatitude(), loc.getLongitude());
+            }
+//            Double lat = activity.getLatitude();
+//            Double lon = activity.getLongitude();
+//            weatherFromInternetByCoord(lat, lon);
         }
     }
 
@@ -370,4 +399,97 @@ public class Weather extends Fragment {
         }
         weatherIcon.setText(icon);
     }
+
+
+
+
+    // Запрос пермиссии для геолокации
+    private void requestLocationPermissions() {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE)) {
+            // Запросим эти две пермиссии у пользователя
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    // Это результат запроса у пользователя пермиссии
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {   // Это та самая пермиссия, что мы запрашивали?
+            if (grantResults.length == 2 &&
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                // Все препоны пройдены и пермиссия дана
+                requestLocation();
+                cityPreference = new CityPreference(getActivity());
+
+                View rootView = getView();
+                assert rootView != null;
+                cityTextView = rootView.findViewById(R.id.city_field);
+                detailsTextView = rootView.findViewById(R.id.details_field);
+                currentTemperatureTextView = rootView.findViewById(R.id.temperature_field);
+                weatherIcon = rootView.findViewById(R.id.weather_icon_field);
+                loadIndicator = rootView.findViewById(R.id.pb_loading_indicator);
+                forecast = rootView.findViewById(R.id.tv_forecast);
+
+                initDB();
+
+                activity = (MainActivity) getActivity();
+                assert activity != null;
+                updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+
+                forecast.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        activity.changeFragment(R.id.forecast);
+                    }
+                });
+            }
+        }
+    }
+
+    private void requestLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // запросим координаты
+            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            provider = locationManager.getBestProvider(criteria, true);
+
+                LocationListener ls = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        if (location != null) {
+                            activity.setLatitude(location.getLatitude());
+                            activity.setLongitude(location.getLongitude());
+                            updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+                        }
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+                    }
+                };
+
+                if (provider != null) {
+                    locationManager.requestLocationUpdates(provider, 10000, 10, ls);
+                }
+            } else {
+                // пермиссии не появилось - выход
+                return;
+            }
+        }
 }
