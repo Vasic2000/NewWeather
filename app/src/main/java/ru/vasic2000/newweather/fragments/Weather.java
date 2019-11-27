@@ -174,7 +174,6 @@ public class Weather extends Fragment {
 
     private void weatherFromInternetByCoord(double lat, double lon) {
         weatherLoaderOn();
-        cityPreference = new CityPreference(getActivity());
         String SecretKey = cityPreference.getSecretKey();
 
         if (Locale.getDefault().getLanguage().equals("ru")) {
@@ -248,7 +247,6 @@ public class Weather extends Fragment {
 
 
     private void weatherFromSQL(String city, SQLiteDatabase db) {
-        Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
         List<String> result = WeathersTable.getInfoFromSQL(city, db);
 
         String cityText = result.get(0).toUpperCase(Locale.US);
@@ -280,6 +278,7 @@ public class Weather extends Fragment {
         setWeatherIcon(Integer.valueOf(result.get(6)), Long.valueOf(result.get(7)), Long.valueOf(result.get(8)));
 
         weatherLoaderOff();
+        Toast.makeText(getContext(), "Погода из SQL!!!", Toast.LENGTH_LONG).show();
     }
 
 
@@ -358,7 +357,7 @@ public class Weather extends Fragment {
                 model.sys.sunset,
                 System.currentTimeMillis(),
                 dataBase);
-
+        cityPreference.setCity(cityText);
         weatherLoaderOff();
     }
 
@@ -465,9 +464,15 @@ public class Weather extends Fragment {
                     @Override
                     public void onLocationChanged(Location location) {
                         if (location != null) {
-                            activity.setLatitude(location.getLatitude());
-                            activity.setLongitude(location.getLongitude());
-                            updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+                            if(activity.getLatitude() == null || activity.getLongitude() == null) {
+                                activity.setLatitude(location.getLatitude());
+                                activity.setLongitude(location.getLongitude());
+                                updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+                            } else if (location.getLatitude() != activity.getLatitude() || location.getLongitude() != activity.getLongitude()) {
+                                activity.setLatitude(location.getLatitude());
+                                activity.setLongitude(location.getLongitude());
+                                updateWeatherData(cityPreference.getCity(), cityPreference.getSecretKey());
+                            }
                         }
                     }
 
