@@ -1,4 +1,4 @@
-package ru.vasic2000.newweather.Fragments;
+package ru.vasic2000.newweather.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,30 +9,30 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
-public class Game_3 extends Fragment {
-    private TextView tv_goBack3;
+public class FeedbackForm extends Fragment {
+    private TextView tvGoBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_game_3, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_feedback_form, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View game3 = getView();
+        View about = getView();
+        tvGoBack = about.findViewById(R.id.tv_return5);
 
-        tv_goBack3 = game3.findViewById(R.id.tv_return3);
-
-        tv_goBack3.setOnClickListener(new View.OnClickListener() {
+        tvGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity ma = (MainActivity) getActivity();
-                ma.fragmentBack();
+                MainActivity activity = (MainActivity) getActivity();
+                activity.fragmentBack();
             }
         });
     }

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ru.vasic2000.newweather.Activities.MainActivity">
+    tools:context="ru.vasic2000.newweather.activities.MainActivity">
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
@@ -20,16 +20,16 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_additions"
-        android:title="@string/bonus"
+        android:title="@string/sensors"
         app:showAsAction="never">
         <menu>
             <item
-                android:id="@+id/action_game1"
-                android:title="@string/maze"
+                android:id="@+id/action_t_sensor"
+                android:title="@string/title_temperature"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/action_game3"
-                android:title="@string/rgb_game"
+                android:id="@+id/action_h_sensor"
+                android:title="@string/title_humidity"
                 app:showAsAction="never" />
         </menu>
     </item>

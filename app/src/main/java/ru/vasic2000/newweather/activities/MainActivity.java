@@ -1,18 +1,16 @@
-package ru.vasic2000.newweather.Activities;
+package ru.vasic2000.newweather.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -20,7 +18,6 @@ import ru.vasic2000.newweather.CityPreference;
 import ru.vasic2000.newweather.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private NavController navController;
     private DrawerLayout drawer;
@@ -49,11 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Чтобы по кнопке назад возвращаться в предыдущий фрагмент
     //чтобы завершить работу, если это стартовый фрагмент
     public void onBackPressed() {
-
-        int bbb = navController.getCurrentDestination().getId();
-        int aaa = navController.getGraph().getStartDestination();
-
-        if(bbb == aaa)
+        int currentFragmentID = navController.getCurrentDestination().getId();
+        int startDestination = navController.getGraph().getStartDestination();
+        if(currentFragmentID == startDestination)
             finish();
         else {
             fragmentBack();
@@ -98,13 +93,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        if (id == R.id.action_game1) {
-            navController.navigate(R.id.game_1);
+        if (id == R.id.action_t_sensor) {
+            navController.navigate(R.id.temperature_sensor);
             return true;
         }
 
-        if (id == R.id.action_game3) {
-            navController.navigate(R.id.game_3);
+        if (id == R.id.action_h_sensor) {
+            navController.navigate(R.id.humidity_sensor);
             return true;
         }
 
@@ -127,15 +122,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.setting);
         } else if (id == R.id.nav_change_city) {
             navController.navigate(R.id.changeCity);
+
         } else if (id == R.id.nav_about) {
             navController.navigate(R.id.aboutDeveloper);
         } else if (id == R.id.nav_feedback) {
             navController.navigate(R.id.feedbackForm);
-        } else if (id == R.id.nav_game1) {
-            navController.navigate(R.id.game_1);
-        } else if (id == R.id.nav_game3) {
-            navController.navigate(R.id.game_3);
+        } else if (id == R.id.nav_temp_sensor) {
+            navController.navigate(R.id.temperature_sensor);
+        } else if (id == R.id.nav_humid_sensor) {
+            navController.navigate(R.id.humidity_sensor);
         }
+        drawer.closeDrawers();
         return true;
     }
 }

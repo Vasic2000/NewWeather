@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context=".Fragments.Weather">
-
-    <!--        Харкод android.text = оставил для тестов, чтобы видеть при отладке потом удалю-->
+    tools:context=".fragments.Weather">
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
@@ -27,7 +25,6 @@
         android:layout_below="@id/city_field"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/weathericons"
-        android:text="10"
         android:textSize="@dimen/icon_1_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weather_icon_field"
         android:layout_centerHorizontal="true"
-        android:text="10"
         android:textSize="@dimen/temperature_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/temperature_field"
         android:layout_centerHorizontal="true"
-        android:text="10"
         android:textSize="@dimen/data_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/MargineTopFirst"
-        android:text="10"
         android:textSize="@dimen/city_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

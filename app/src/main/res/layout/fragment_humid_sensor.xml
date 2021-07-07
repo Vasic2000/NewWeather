@@ -5,20 +5,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Game_1">
+    tools:context=".fragments.Humidity_Sensor">
 
     <TextView
-        android:id="@+id/tv_game1"
+        android:id="@+id/tv_head3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/No_game1"
+        android:text="@string/relative_humidity"
+        android:textSize="@dimen/Humid_Size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_return1"
+        android:id="@+id/tv_h_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/no_sensor"
+        android:textSize="@dimen/humid_value_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_head3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_return3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -28,6 +43,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_game1" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_h_value" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,7 @@
-package ru.vasic2000.newweather.Fragments;
+package ru.vasic2000.newweather.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +9,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Locale;
 
-import ru.vasic2000.newweather.Activities.MainActivity;
+import ru.vasic2000.newweather.activities.MainActivity;
 import ru.vasic2000.newweather.R;
 
 
@@ -22,11 +21,6 @@ public class Setting extends Fragment {
     RadioButton themeDark;
     RadioButton themeBright;
     TextView goBack;
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,9 +58,8 @@ public class Setting extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity ma = (MainActivity) getActivity();
-                ma.fragmentBack();
-//                ma.removeFragment(ma.fragment_setting);
+                MainActivity activity = (MainActivity) getActivity();
+                activity.fragmentBack();
             }
         });
 
